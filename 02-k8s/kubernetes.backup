@@ -1,0 +1,81 @@
+
+# Providers using Kubeconfig from Infra
+provider "kubernetes" {
+  host                   = var.kubeconfig_host
+  token                  = var.kubeconfig_token
+  cluster_ca_certificate = base64decode(var.kubeconfig_ca)
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = var.kubeconfig_host
+    token                  = var.kubeconfig_token
+    cluster_ca_certificate = base64decode(var.kubeconfig_ca)
+  }
+}
+
+# Cert-manager
+resource "helm_release" "cert_manager" {
+  name       = "cert-manager"
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
+  namespace  = "cert-manager"
+  version    = "v1.16.1"
+  create_namespace = true
+
+  set {
+    name  = "installCRDs"
+    value = "true"
+  }
+}
+
+
+# NGINX Ingress controller
+resource "helm_release" "nginx_ingress" {
+  name       = "nginx-ingress"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
+  namespace  = "kube-system"
+
+  set {
+    name  = "controller.service.loadBalancerIP"
+    value = var.woo_lb_ip
+  }
+
+  set {
+    name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/scw-loadbalancer-proxy-protocol-v2"
+    value = "true"
+  }
+
+  set {
+    name  = "controller.config.use-proxy-protocol"
+    value = "true"
+  }
+
+  set {
+    name  = "controller.service.externalTrafficPolicy"
+    value = "Local"
+  }
+}
+
+# Explicit wait for cert-manager CRDs before creating clusterissuer
+resource "null_resource" "wait_for_crds" {
+  triggers = {
+    certmanager = helm_release.cert_manager.id
+  }
+   provisioner "local-exec" {
+    command = <<EOF
+    echo "Waiting for cert-manager CRDs..."
+    kubectl wait --for=condition=Established crd/clusterissuers.cert-manager.io --timeout=120s
+    EOF
+  }
+}
+
+# ClusterIssuer
+resource "kubernetes_manifest" "letsencrypt_prod" {
+  manifest = yamldecode(file("${path.module}/cluster-issuer.yaml"))
+  depends_on = [
+    helm_release.cert_manager,
+    null_resource.wait_for_crds
+  ]
+}
