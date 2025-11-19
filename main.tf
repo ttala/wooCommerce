@@ -176,6 +176,53 @@ resource "helm_release" "nginx_ingress" {
     value = "Local"
   }
 
+  resource "dns_domain_record" "domain_record" {
+  zone = "woo.kerocam.com"
+  name = "@"
+  type = "A"
+  ttl  = 300
+
+  data = scaleway_lb_ip.woo_lb_ip.ip_address
+}
+
+resource "kubernetes_service" "ingress-nginx" {
+
+  metadata {
+    name      = "ingress-nginx-controller-${var.zone}"
+    namespace = helm_release.nginx_ingress.namespace
+
+    annotations = {
+      "service.beta.kubernetes.io/scw-loadbalancer-zone" : var.zone
+    }
+  }
+
+  spec {
+    selector = {
+      "app.kubernetes.io/name"      = "ingress-nginx"
+      "app.kubernetes.io/instance"  = "ingress-nginx"
+      "app.kubernetes.io/component" = "controller"
+    }
+
+    port {
+      app_protocol = "http"
+      name         = "http"
+      port         = 80
+      protocol     = "TCP"
+      target_port  = "http"
+    }
+
+    port {
+      app_protocol = "https"
+      name         = "https"
+      port         = 443
+      protocol     = "TCP"
+      target_port  = "https"
+    }
+
+    type = "LoadBalancer"
+  }
+
+
   // enable this annotation to use cert-manager
   //set {
   //  name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/scw-loadbalancer-use-hostname"
