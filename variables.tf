@@ -26,5 +26,5 @@ variable "db_password" {
     type = string
     description = "password for mysql"
     sensitive = true
-    default = "Passwd4db1"
+    default = "Passwd4db1!"
 }

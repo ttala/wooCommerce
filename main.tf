@@ -1,4 +1,3 @@
-
 # Creating a private network for cluster isolation
 resource "scaleway_vpc_private_network" "shopsecure_pn" {
     name = "shopsecure-private-net"
@@ -20,6 +19,21 @@ resource "scaleway_vpc_gateway_network" "shopsecure_gateway_network" {
     zone = var.zone
     ipam_config {
         push_default_route = true
+    }
+}
+
+# Creating a managed MySQL database for WooCommerce
+resource "scaleway_rdb_instance" "woocommerce_db" {
+    name = "shopsecure-woocommerce-db"
+    node_type = "db-dev-s"
+    engine = "MySQL-8"
+    is_ha_cluster = true
+    user_name = var.db_user
+    password = var.db_password
+    region = var.region
+    private_network {
+    pn_id = scaleway_vpc_private_network.shopsecure_pn.id
+    enable_ipam = true
     }
 }
 
@@ -62,6 +76,15 @@ provider "kubernetes" {
   )
 }
 
+provider "kubectl" {
+  host                   = data.scaleway_k8s_cluster.shopsecure_cluster.kubeconfig[0].host
+  token                  = data.scaleway_k8s_cluster.shopsecure_cluster.kubeconfig[0].token
+  cluster_ca_certificate = base64decode(
+    data.scaleway_k8s_cluster.shopsecure_cluster.kubeconfig[0].cluster_ca_certificate
+  )
+  load_config_file       = false
+}
+
 provider "helm" {
   kubernetes {
     host                   = data.scaleway_k8s_cluster.shopsecure_cluster.kubeconfig[0].host
@@ -78,16 +101,6 @@ resource "scaleway_lb_ip" "woo_lb_ip" {
   zone = "pl-waw-1"
 }
 
-#resource "scaleway_lb" "woo_lb" {
-#  ip_ids = [scaleway_lb_ip.v4.id]
-#  name   = "woo-lb"
-#  type   = "LB-S"
-
-#  private_network {
-#    private_network_id = scaleway_vpc_private_network.pn01.id
-#  }
-#}
-
 resource "helm_release" "cert_manager" {
   name       = "cert-manager"
   repository = "https://charts.jetstack.io"
@@ -103,34 +116,25 @@ resource "helm_release" "cert_manager" {
   }
 }
 
-resource "kubernetes_manifest" "letsencrypt_prod" {
-  manifest = {
-    apiVersion = "cert-manager.io/v1"
-    kind       = "ClusterIssuer"
-    metadata = {
-      name = "letsencrypt-prod"
-    }
-    spec = {
-      acme = {
-        email  = "contact@kerocam.com"
-        server = "https://acme-v02.api.letsencrypt.org/directory"
-        privateKeySecretRef = {
-          name = "letsencrypt-prod"
-        }
-        solvers = [{
-          http01 = {
-            ingress = {
-              class = "nginx"
-            }
-          }
-        }]
-      }
-    }
-  }
-    depends_on = [
-    helm_release.cert_manager,
-    helm_release.nginx_ingress
-  ]
+resource "kubectl_manifest" "letsencrypt_prod" {
+  depends_on = [helm_release.cert_manager]
+
+  yaml_body = <<YAML
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: contact@kerocam.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
+YAML
 }
 
 
@@ -175,17 +179,3 @@ resource "helm_release" "nginx_ingress" {
   //}
 }
 
-# Creating a managed MySQL database for WooCommerce
-resource "scaleway_rdb_instance" "woocommerce_db" {
-    name = "shopsecure-woocommerce-db"
-    node_type = "db-dev-s"
-    engine = "MySQL-8"
-    is_ha_cluster = true
-    user_name = var.db_user
-    password = var.db_password
-    region = var.region
-    private_network {
-    pn_id = scaleway_vpc_private_network.shopsecure_pn.id
-    enable_ipam = true
-    }
-}
