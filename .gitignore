@@ -3,3 +3,4 @@
 terraform.tfstate
 terraform.tfstate.backup
 secret.sh
+secret-exp.sh

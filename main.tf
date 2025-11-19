@@ -116,32 +116,42 @@ resource "helm_release" "cert_manager" {
   }
 }
 
-resource "kubectl_manifest" "letsencrypt_prod" {
+resource "kubernetes_manifest" "letsencrypt_prod" {
   depends_on = [helm_release.cert_manager]
 
-  yaml_body = <<YAML
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-prod
-spec:
-  acme:
-    email: contact@kerocam.com
-    server: https://acme-v02.api.letsencrypt.org/directory
-    privateKeySecretRef:
-      name: letsencrypt-prod
-    solvers:
-      - http01:
-          ingress:
-            class: nginx
-YAML
+  manifest = {
+    apiVersion = "cert-manager.io/v1"
+    kind       = "ClusterIssuer"
+    metadata = {
+      name = "letsencrypt-prod"
+    }
+    spec = {
+      acme = {
+        email  = "contact@kerocam.com"
+        server = "https://acme-v02.api.letsencrypt.org/directory"
+        privateKeySecretRef = {
+          name = "letsencrypt-prod"
+        }
+        solvers = [
+          {
+            http01 = {
+              ingress = {
+                class = "nginx"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
 }
+
 
 
 resource "helm_release" "nginx_ingress" {
   name      = "nginx-ingress"
-  namespace = "kube-system"
-
+  namespace = "ingress-nginx"
+  create_namespace = true
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart = "ingress-nginx"
 
@@ -160,12 +170,6 @@ resource "helm_release" "nginx_ingress" {
     value = "true"
   }
 
-  // indicates in which zone to create the loadbalancer
-  set {
-    name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/scw-loadbalancer-zone"
-    value = scaleway_lb_ip.woo_lb_ip.zone
-  }
-
   // enable to avoid node forwarding
   set {
     name = "controller.service.externalTrafficPolicy"
@@ -177,5 +181,12 @@ resource "helm_release" "nginx_ingress" {
   //  name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/scw-loadbalancer-use-hostname"
   //  value = "true"
   //}
+
+  // indicates in which zone to create the loadbalancer
+ // set {
+  //  name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/scw-loadbalancer-zone"
+  //  value = scaleway_lb_ip.woo_lb_ip.zone
+ // }
+
 }
 
