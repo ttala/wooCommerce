@@ -106,11 +106,11 @@ resource "kubernetes_secret" "woocommerce_env" {
     name = "woocommerce-env"
   }
 
-  string_data = {
-    WORDPRESS_DB_HOST     = scaleway_rdb_instance.woocommerce_db.private_network[0].ip
-    WORDPRESS_DB_USER     = "wp_user"
-    WORDPRESS_DB_PASSWORD = var.db_password
-    WORDPRESS_DB_NAME     = "rdb"
+  data = {
+    WORDPRESS_DB_HOST     = base64encode(scaleway_rdb_instance.woocommerce_db.private_network[0].ip)
+    WORDPRESS_DB_USER     = base64encode(var.db_user)
+    WORDPRESS_DB_PASSWORD = base64encode(var.db_password)
+    WORDPRESS_DB_NAME     = base64encode("rdb")
   }
 }
 
