@@ -101,92 +101,126 @@ resource "scaleway_lb_ip" "woo_lb_ip" {
   zone = "pl-waw-1"
 }
 
-resource "helm_release" "nginx_ingress" {
-  name      = "nginx-ingress"
-  namespace = "ingress-nginx"
-  create_namespace = true
-  repository = "https://kubernetes.github.io/ingress-nginx"
-  chart = "ingress-nginx"
-
-  set {
-    name = "controller.service.loadBalancerIP"
-    value = scaleway_lb_ip.woo_lb_ip.ip_address
+resource "kubernetes_secret" "woocommerce_env" {
+  metadata {
+    name = "woocommerce-env"
   }
 
-  // enable proxy protocol to get client ip addr instead of loadbalancer one
-  set {
-    name = "controller.config.use-proxy-protocol"
-    value = "true"
+  string_data = {
+    WORDPRESS_DB_HOST     = scaleway_rdb_instance.woocommerce_db.private_network[0].ip
+    WORDPRESS_DB_USER     = "wp_user"
+    WORDPRESS_DB_PASSWORD = var.db_password
+    WORDPRESS_DB_NAME     = "rdb"
   }
-  set {
-    name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/scw-loadbalancer-proxy-protocol-v2"
-    value = "true"
-  }
-
-  // enable to avoid node forwarding
-  set {
-    name = "controller.service.externalTrafficPolicy"
-    value = "Local"
-     }
 }
 
-
-resource "kubernetes_service" "ingress-nginx" {
-
+resource "kubernetes_persistent_volume_claim" "woocommerce" {
   metadata {
-    name      = "ingress-nginx-controller-${var.zone}"
-    namespace = helm_release.nginx_ingress.namespace
+    name = "woocommerce-pvc"
+  }
 
-    annotations = {
-      "service.beta.kubernetes.io/scw-loadbalancer-zone" : var.zone
+  spec {
+    access_modes = ["ReadWriteOnce"]
+
+    resources {
+      requests = {
+        storage = "10Gi"
+      }
+    }
+  }
+}
+
+resource "kubernetes_deployment" "woocommerce" {
+  metadata {
+    name = "woocommerce"
+    labels = {
+      app = "woocommerce"
     }
   }
 
   spec {
-    selector = {
-      "app.kubernetes.io/name"      = "ingress-nginx"
-      "app.kubernetes.io/instance"  = "ingress-nginx"
-      "app.kubernetes.io/component" = "controller"
+    replicas = 2
+
+    selector {
+      match_labels = {
+        app = "woocommerce"
+      }
     }
 
-    port {
-      app_protocol = "http"
-      name         = "http"
-      port         = 80
-      protocol     = "TCP"
-      target_port  = "http"
-    }
+    template {
+      metadata {
+        labels = {
+          app = "woocommerce"
+        }
+      }
 
-    port {
-      app_protocol = "https"
-      name         = "https"
-      port         = 443
-      protocol     = "TCP"
-      target_port  = "https"
-    }
+      spec {
+        container {
+          name  = "woocommerce"
+          image = "rg.fr-par.scw.cloud/ns-woocom/woocommerce:latest"
 
-    //type = "LoadBalancer"
-  }
-  lifecycle {
-    ignore_changes = [
-      metadata[0].annotations["service.beta.kubernetes.io/scw-loadbalancer-id"],
-      metadata[0].labels["k8s.scaleway.com/cluster"],
-      metadata[0].labels["k8s.scaleway.com/kapsule"],
-      metadata[0].labels["k8s.scaleway.com/managed-by-scaleway-cloud-controller-manager"],
-    ]
+          port {
+            container_port = 80
+          }
+
+          env_from {
+            secret_ref {
+              name = kubernetes_secret.woocommerce_env.metadata[0].name
+            }
+          }
+
+          volume_mount {
+            name       = "woocommerce-data"
+            mount_path = "/var/www/html/wp-content"
+          }
+
+          # Health checks
+          readiness_probe {
+            http_get {
+              path = "/"
+              port = 80
+            }
+          }
+
+          liveness_probe {
+            http_get {
+              path = "/"
+              port = 80
+            }
+          }
+        }
+
+        volume {
+          name = "woocommerce-data"
+
+          persistent_volume_claim {
+            claim_name = kubernetes_persistent_volume_claim.woocommerce.metadata[0].name
+          }
+        }
+      }
+    }
   }
 }
 
-  // enable this annotation to use cert-manager
-  //set {
-  //  name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/scw-loadbalancer-use-hostname"
-  //  value = "true"
-  //}
+resource "kubernetes_service" "woocommerce" {
+  metadata {
+    name = "woocommerce"
+    labels = {
+      app = "woocommerce"
+    }
+  }
 
-  // indicates in which zone to create the loadbalancer
- // set {
-  //  name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/scw-loadbalancer-zone"
-  //  value = scaleway_lb_ip.woo_lb_ip.zone
- // }
+  spec {
+    type = "ClusterIP"
 
+    selector = {
+      app = "woocommerce"
+    }
+
+    port {
+      port        = 80
+      target_port = 80
+    }
+  }
+}
 
