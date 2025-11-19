@@ -101,53 +101,6 @@ resource "scaleway_lb_ip" "woo_lb_ip" {
   zone = "pl-waw-1"
 }
 
-resource "helm_release" "cert_manager" {
-  name       = "cert-manager"
-  repository = "https://charts.jetstack.io"
-  chart      = "cert-manager"
-  namespace  = "cert-manager"
-  version    = "v1.16.1" # <-- pin a version
-
-  create_namespace = true
-
-  set {
-    name  = "installCRDs"
-    value = "true"
-  }
-}
-
-resource "kubernetes_manifest" "letsencrypt_prod" {
-  depends_on = [helm_release.cert_manager]
-
-  manifest = {
-    apiVersion = "cert-manager.io/v1"
-    kind       = "ClusterIssuer"
-    metadata = {
-      name = "letsencrypt-prod"
-    }
-    spec = {
-      acme = {
-        email  = "contact@kerocam.com"
-        server = "https://acme-v02.api.letsencrypt.org/directory"
-        privateKeySecretRef = {
-          name = "letsencrypt-prod"
-        }
-        solvers = [
-          {
-            http01 = {
-              ingress = {
-                class = "nginx"
-              }
-            }
-          }
-        ]
-      }
-    }
-  }
-}
-
-
-
 resource "helm_release" "nginx_ingress" {
   name      = "nginx-ingress"
   namespace = "ingress-nginx"
@@ -174,16 +127,9 @@ resource "helm_release" "nginx_ingress" {
   set {
     name = "controller.service.externalTrafficPolicy"
     value = "Local"
-  }
-
-  resource "dns_domain_record" "domain_record" {
-  zone = "woo.kerocam.com"
-  name = "@"
-  type = "A"
-  ttl  = 300
-
-  data = scaleway_lb_ip.woo_lb_ip.ip_address
+     }
 }
+
 
 resource "kubernetes_service" "ingress-nginx" {
 
@@ -219,9 +165,17 @@ resource "kubernetes_service" "ingress-nginx" {
       target_port  = "https"
     }
 
-    type = "LoadBalancer"
+    //type = "LoadBalancer"
   }
-
+  lifecycle {
+    ignore_changes = [
+      metadata[0].annotations["service.beta.kubernetes.io/scw-loadbalancer-id"],
+      metadata[0].labels["k8s.scaleway.com/cluster"],
+      metadata[0].labels["k8s.scaleway.com/kapsule"],
+      metadata[0].labels["k8s.scaleway.com/managed-by-scaleway-cloud-controller-manager"],
+    ]
+  }
+}
 
   // enable this annotation to use cert-manager
   //set {
@@ -235,5 +189,4 @@ resource "kubernetes_service" "ingress-nginx" {
   //  value = scaleway_lb_ip.woo_lb_ip.zone
  // }
 
-}
 
