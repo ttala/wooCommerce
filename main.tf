@@ -107,28 +107,15 @@ resource "kubernetes_secret" "woocommerce_env" {
   }
 
   data = {
-    WORDPRESS_DB_HOST     = base64encode(scaleway_rdb_instance.woocommerce_db.private_network[0].ip)
-    WORDPRESS_DB_USER     = base64encode(var.db_user)
-    WORDPRESS_DB_PASSWORD = base64encode(var.db_password)
-    WORDPRESS_DB_NAME     = base64encode("rdb")
+    WORDPRESS_DB_HOST     = scaleway_rdb_instance.woocommerce_db.private_network[0].ip
+    WORDPRESS_DB_USER     = var.db_user
+    WORDPRESS_DB_PASSWORD = var.db_password
+    WORDPRESS_DB_NAME     = "rdb"
+    WORDPRESS_URL         = "shoo.kerocam.com"
+    WORDPRESS_ADMIN_EMAIL = "contact@kerocam.com"
   }
 }
 
-resource "kubernetes_persistent_volume_claim" "woocommerce" {
-  metadata {
-    name = "woocommerce-pvc"
-  }
-
-  spec {
-    access_modes = ["ReadWriteOnce"]
-
-    resources {
-      requests = {
-        storage = "10Gi"
-      }
-    }
-  }
-}
 
 resource "kubernetes_deployment" "woocommerce" {
   metadata {
@@ -155,6 +142,13 @@ resource "kubernetes_deployment" "woocommerce" {
       }
 
       spec {
+        volume {
+          name = "woocommerce-data"
+          host_path {
+            path = "/data/woocom" 
+            type = "DirectoryOrCreate"
+          }
+        }
         container {
           name  = "woocommerce"
           image = "rg.fr-par.scw.cloud/ns-woocom/woocommerce:latest"
@@ -172,29 +166,6 @@ resource "kubernetes_deployment" "woocommerce" {
           volume_mount {
             name       = "woocommerce-data"
             mount_path = "/var/www/html/wp-content"
-          }
-
-          # Health checks
-          readiness_probe {
-            http_get {
-              path = "/"
-              port = 80
-            }
-          }
-
-          liveness_probe {
-            http_get {
-              path = "/"
-              port = 80
-            }
-          }
-        }
-
-        volume {
-          name = "woocommerce-data"
-
-          persistent_volume_claim {
-            claim_name = kubernetes_persistent_volume_claim.woocommerce.metadata[0].name
           }
         }
       }
@@ -223,4 +194,7 @@ resource "kubernetes_service" "woocommerce" {
     }
   }
 }
+
+
+
 

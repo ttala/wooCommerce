@@ -1,0 +1,5 @@
+export TF_VAR_scaleway_access_key="SCW111111111111111"
+export TF_VAR_scaleway_secret_key="1111111-11111-1111-1111-11111111111"
+export TF_VAR_project_id="1111111-11111-1111-1111-11111111111"
+export TF_VAR_db_password="Mypasswd-sql9"
+export TF_VAR_region="pl-waw"

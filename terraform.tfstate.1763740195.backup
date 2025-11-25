@@ -1,0 +1,900 @@
+{
+  "version": 4,
+  "terraform_version": "1.13.5",
+  "serial": 27,
+  "lineage": "478d3246-8b5d-8f63-3790-d41ad616cefd",
+  "outputs": {},
+  "resources": [
+    {
+      "mode": "data",
+      "type": "scaleway_k8s_cluster",
+      "name": "shopsecure_cluster",
+      "provider": "provider[\"registry.terraform.io/scaleway/scaleway\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "admission_plugins": [],
+            "apiserver_cert_sans": [],
+            "apiserver_url": "https://63d30c3e-888a-4f58-adc7-c73a08e332a5.api.k8s.pl-waw.scw.cloud:6443",
+            "auto_upgrade": [
+              {
+                "enable": false,
+                "maintenance_window_day": "any",
+                "maintenance_window_start_hour": 0
+              }
+            ],
+            "autoscaler_config": [
+              {
+                "balance_similar_node_groups": false,
+                "disable_scale_down": false,
+                "estimator": "binpacking",
+                "expander": "random",
+                "expendable_pods_priority_cutoff": 0,
+                "ignore_daemonsets_utilization": false,
+                "max_graceful_termination_sec": 0,
+                "scale_down_delay_after_add": "10m",
+                "scale_down_unneeded_time": "10m",
+                "scale_down_utilization_threshold": 0.5
+              }
+            ],
+            "cluster_id": "pl-waw/63d30c3e-888a-4f58-adc7-c73a08e332a5",
+            "cni": "cilium",
+            "created_at": "2025-11-19T10:19:57Z",
+            "description": "",
+            "feature_gates": [],
+            "id": "pl-waw/63d30c3e-888a-4f58-adc7-c73a08e332a5",
+            "kubeconfig": [
+              {
+                "cluster_ca_certificate": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJXekNDQVFHZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQVZNUk13RVFZRFZRUURFd3ByZFdKbGNtNWwKZEdWek1CNFhEVEkxTVRFeE9ERXdNVGsxTjFvWERUTTFNVEV4T0RFd01UazFOMW93RlRFVE1CRUdBMVVFQXhNSwphM1ZpWlhKdVpYUmxjekJaTUJNR0J5cUdTTTQ5QWdFR0NDcUdTTTQ5QXdFSEEwSUFCR0lVdXI3VHZwd0FRYWtFCnFJTVpZb0s4V0U2WVpnejVvbXlnVW5qV1MzK0dxVHFKY2NwSkpwL1pRc1FFUDd3UUs5YWZ6YUNRVjZuV3hUTVUKdjNDTnhzV2pRakJBTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQjBHQTFVZApEZ1FXQkJTQW14NENLV3dhcUtXZStieHJDdnhHcEZmR0pEQUtCZ2dxaGtqT1BRUURBZ05JQURCRkFpQXhvc211CitlNXN1alhYeG43QmRxNWM0QmpMR3ZUUklqNlgwM3daS2JCSER3SWhBT3lRV2x3MG1PWkRjUlIyZ0h3L2owK24KWU9ReitZOUlpb0JqNlZnMHhoUjMKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=",
+                "config_file": "apiVersion: v1\nclusters:\n- name: \"shopsecure-kapsule-cluster\"\n  cluster:\n    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJXekNDQVFHZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQVZNUk13RVFZRFZRUURFd3ByZFdKbGNtNWwKZEdWek1CNFhEVEkxTVRFeE9ERXdNVGsxTjFvWERUTTFNVEV4T0RFd01UazFOMW93RlRFVE1CRUdBMVVFQXhNSwphM1ZpWlhKdVpYUmxjekJaTUJNR0J5cUdTTTQ5QWdFR0NDcUdTTTQ5QXdFSEEwSUFCR0lVdXI3VHZwd0FRYWtFCnFJTVpZb0s4V0U2WVpnejVvbXlnVW5qV1MzK0dxVHFKY2NwSkpwL1pRc1FFUDd3UUs5YWZ6YUNRVjZuV3hUTVUKdjNDTnhzV2pRakJBTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQjBHQTFVZApEZ1FXQkJTQW14NENLV3dhcUtXZStieHJDdnhHcEZmR0pEQUtCZ2dxaGtqT1BRUURBZ05JQURCRkFpQXhvc211CitlNXN1alhYeG43QmRxNWM0QmpMR3ZUUklqNlgwM3daS2JCSER3SWhBT3lRV2x3MG1PWkRjUlIyZ0h3L2owK24KWU9ReitZOUlpb0JqNlZnMHhoUjMKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=\n    server: https://63d30c3e-888a-4f58-adc7-c73a08e332a5.api.k8s.pl-waw.scw.cloud:6443\ncontexts:\n- name: admin@shopsecure-kapsule-cluster\n  context:\n    cluster: \"shopsecure-kapsule-cluster\"\n    user: shopsecure-kapsule-cluster-admin\ncurrent-context: admin@shopsecure-kapsule-cluster\nkind: Config\npreferences: {}\nusers:\n- name: shopsecure-kapsule-cluster-admin\n  user:\n    token: TpOP4HWr0sncUwnKq0MnjY9I51BaLTwrGBaLU5WVrn665Yw6NEgZgX4F",
+                "host": "https://63d30c3e-888a-4f58-adc7-c73a08e332a5.api.k8s.pl-waw.scw.cloud:6443",
+                "token": "TpOP4HWr0sncUwnKq0MnjY9I51BaLTwrGBaLU5WVrn665Yw6NEgZgX4F"
+              }
+            ],
+            "name": "shopsecure-kapsule-cluster",
+            "open_id_connect_config": [
+              {
+                "client_id": "",
+                "groups_claim": [],
+                "groups_prefix": "",
+                "issuer_url": "",
+                "required_claim": [],
+                "username_claim": "",
+                "username_prefix": ""
+              }
+            ],
+            "organization_id": "002c0a6c-bfdb-4714-83b1-d109ffd161ba",
+            "pod_cidr": "100.64.0.0/15",
+            "private_network_id": "f69fe32e-8dc3-4da5-b160-4b40309349fe",
+            "project_id": "002c0a6c-bfdb-4714-83b1-d109ffd161ba",
+            "region": "pl-waw",
+            "service_cidr": "10.32.0.0/20",
+            "service_dns_ip": "10.32.0.10",
+            "status": "ready",
+            "tags": [],
+            "type": "kapsule",
+            "updated_at": "2025-11-19T10:21:45Z",
+            "upgrade_available": true,
+            "version": "1.33.4",
+            "wildcard_dns": "*.63d30c3e-888a-4f58-adc7-c73a08e332a5.nodes.k8s.pl-waw.scw.cloud"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "kubernetes_deployment",
+      "name": "woocommerce",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "status": "tainted",
+          "schema_version": 1,
+          "attributes": {
+            "id": "default/woocommerce",
+            "metadata": [
+              {
+                "annotations": null,
+                "generate_name": "",
+                "generation": 0,
+                "labels": {
+                  "app": "woocommerce"
+                },
+                "name": "woocommerce",
+                "namespace": "default",
+                "resource_version": "",
+                "uid": ""
+              }
+            ],
+            "spec": [
+              {
+                "min_ready_seconds": 0,
+                "paused": false,
+                "progress_deadline_seconds": 600,
+                "replicas": "2",
+                "revision_history_limit": 10,
+                "selector": [
+                  {
+                    "match_expressions": [],
+                    "match_labels": {
+                      "app": "woocommerce"
+                    }
+                  }
+                ],
+                "strategy": [],
+                "template": [
+                  {
+                    "metadata": [
+                      {
+                        "annotations": null,
+                        "generate_name": "",
+                        "generation": 0,
+                        "labels": {
+                          "app": "woocommerce"
+                        },
+                        "name": "",
+                        "namespace": "",
+                        "resource_version": "",
+                        "uid": ""
+                      }
+                    ],
+                    "spec": [
+                      {
+                        "active_deadline_seconds": 0,
+                        "affinity": [],
+                        "automount_service_account_token": true,
+                        "container": [
+                          {
+                            "args": null,
+                            "command": null,
+                            "env": [],
+                            "env_from": [
+                              {
+                                "config_map_ref": [],
+                                "prefix": "",
+                                "secret_ref": [
+                                  {
+                                    "name": "woocommerce-env",
+                                    "optional": false
+                                  }
+                                ]
+                              }
+                            ],
+                            "image": "rg.fr-par.scw.cloud/ns-woocom/woocommerce:latest",
+                            "image_pull_policy": "",
+                            "lifecycle": [],
+                            "liveness_probe": [],
+                            "name": "woocommerce",
+                            "port": [
+                              {
+                                "container_port": 80,
+                                "host_ip": "",
+                                "host_port": 0,
+                                "name": "",
+                                "protocol": "TCP"
+                              }
+                            ],
+                            "readiness_probe": [],
+                            "resources": [],
+                            "security_context": [],
+                            "startup_probe": [],
+                            "stdin": false,
+                            "stdin_once": false,
+                            "termination_message_path": "/dev/termination-log",
+                            "termination_message_policy": "",
+                            "tty": false,
+                            "volume_device": [],
+                            "volume_mount": [
+                              {
+                                "mount_path": "/var/www/html/wp-content",
+                                "mount_propagation": "None",
+                                "name": "woocommerce-data",
+                                "read_only": false,
+                                "sub_path": "",
+                                "sub_path_expr": ""
+                              }
+                            ],
+                            "working_dir": ""
+                          }
+                        ],
+                        "dns_config": [],
+                        "dns_policy": "ClusterFirst",
+                        "enable_service_links": true,
+                        "host_aliases": [],
+                        "host_ipc": false,
+                        "host_network": false,
+                        "host_pid": false,
+                        "hostname": "",
+                        "image_pull_secrets": [],
+                        "init_container": [],
+                        "node_name": "",
+                        "node_selector": null,
+                        "os": [],
+                        "priority_class_name": "",
+                        "readiness_gate": [],
+                        "restart_policy": "Always",
+                        "runtime_class_name": "",
+                        "scheduler_name": "",
+                        "security_context": [],
+                        "service_account_name": "",
+                        "share_process_namespace": false,
+                        "subdomain": "",
+                        "termination_grace_period_seconds": 30,
+                        "toleration": [],
+                        "topology_spread_constraint": [],
+                        "volume": [
+                          {
+                            "aws_elastic_block_store": [],
+                            "azure_disk": [],
+                            "azure_file": [],
+                            "ceph_fs": [],
+                            "cinder": [],
+                            "config_map": [],
+                            "csi": [],
+                            "downward_api": [],
+                            "empty_dir": [],
+                            "ephemeral": [],
+                            "fc": [],
+                            "flex_volume": [],
+                            "flocker": [],
+                            "gce_persistent_disk": [],
+                            "git_repo": [],
+                            "glusterfs": [],
+                            "host_path": [],
+                            "iscsi": [],
+                            "local": [],
+                            "name": "woocommerce-data",
+                            "nfs": [],
+                            "persistent_volume_claim": [
+                              {
+                                "claim_name": "woocommerce-pvc ",
+                                "read_only": false
+                              }
+                            ],
+                            "photon_persistent_disk": [],
+                            "projected": [],
+                            "quobyte": [],
+                            "rbd": [],
+                            "secret": [],
+                            "vsphere_volume": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "timeouts": null,
+            "wait_for_rollout": true
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": null,
+            "kind": null,
+            "name": null,
+            "namespace": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "data.scaleway_k8s_cluster.shopsecure_cluster",
+            "kubernetes_secret.woocommerce_env",
+            "scaleway_k8s_cluster.shopsecure_cluster",
+            "scaleway_k8s_pool.full_isolation_pool",
+            "scaleway_rdb_instance.woocommerce_db",
+            "scaleway_vpc_gateway_network.shopsecure_gateway_network",
+            "scaleway_vpc_private_network.shopsecure_pn",
+            "scaleway_vpc_public_gateway.shopsecure_gateway"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "kubernetes_secret",
+      "name": "woocommerce_env",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "binary_data": null,
+            "binary_data_wo": null,
+            "binary_data_wo_revision": null,
+            "data": {
+              "WORDPRESS_DB_HOST": "MTcyLjE2LjIwLjI=",
+              "WORDPRESS_DB_NAME": "cmRi",
+              "WORDPRESS_DB_PASSWORD": "UGFzc3dkNGRiMSE=",
+              "WORDPRESS_DB_USER": "YWRtaW4="
+            },
+            "data_wo": null,
+            "data_wo_revision": null,
+            "id": "default/woocommerce-env",
+            "immutable": false,
+            "metadata": [
+              {
+                "annotations": {},
+                "generate_name": "",
+                "generation": 0,
+                "labels": {},
+                "name": "woocommerce-env",
+                "namespace": "default",
+                "resource_version": "4156272807",
+                "uid": "b982c2fc-0a31-4278-b6e5-63d79020bd0c"
+              }
+            ],
+            "timeouts": null,
+            "type": "Opaque",
+            "wait_for_service_account_token": true
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "binary_data"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "data"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "data"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": "WORDPRESS_DB_PASSWORD",
+                  "type": "string"
+                }
+              }
+            ]
+          ],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "v1",
+            "kind": "Secret",
+            "name": "woocommerce-env",
+            "namespace": "default"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.scaleway_k8s_cluster.shopsecure_cluster",
+            "scaleway_k8s_cluster.shopsecure_cluster",
+            "scaleway_k8s_pool.full_isolation_pool",
+            "scaleway_rdb_instance.woocommerce_db",
+            "scaleway_vpc_gateway_network.shopsecure_gateway_network",
+            "scaleway_vpc_private_network.shopsecure_pn",
+            "scaleway_vpc_public_gateway.shopsecure_gateway"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "kubernetes_service",
+      "name": "woocommerce",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "id": "default/woocommerce",
+            "metadata": [
+              {
+                "annotations": {},
+                "generate_name": "",
+                "generation": 0,
+                "labels": {
+                  "app": "woocommerce"
+                },
+                "name": "woocommerce",
+                "namespace": "default",
+                "resource_version": "4156249228",
+                "uid": "763809ab-e161-47b6-af35-a60d86665e0c"
+              }
+            ],
+            "spec": [
+              {
+                "allocate_load_balancer_node_ports": true,
+                "cluster_ip": "10.32.15.155",
+                "cluster_ips": [
+                  "10.32.15.155"
+                ],
+                "external_ips": [],
+                "external_name": "",
+                "external_traffic_policy": "",
+                "health_check_node_port": 0,
+                "internal_traffic_policy": "Cluster",
+                "ip_families": [
+                  "IPv4"
+                ],
+                "ip_family_policy": "SingleStack",
+                "load_balancer_class": "",
+                "load_balancer_ip": "",
+                "load_balancer_source_ranges": [],
+                "port": [
+                  {
+                    "app_protocol": "",
+                    "name": "",
+                    "node_port": 0,
+                    "port": 80,
+                    "protocol": "TCP",
+                    "target_port": "80"
+                  }
+                ],
+                "publish_not_ready_addresses": false,
+                "selector": {
+                  "app": "woocommerce"
+                },
+                "session_affinity": "None",
+                "session_affinity_config": [],
+                "type": "ClusterIP"
+              }
+            ],
+            "status": [
+              {
+                "load_balancer": [
+                  {
+                    "ingress": []
+                  }
+                ]
+              }
+            ],
+            "timeouts": null,
+            "wait_for_load_balancer": true
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "v1",
+            "kind": "Service",
+            "name": "woocommerce",
+            "namespace": "default"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjEifQ==",
+          "dependencies": [
+            "data.scaleway_k8s_cluster.shopsecure_cluster",
+            "scaleway_k8s_cluster.shopsecure_cluster",
+            "scaleway_k8s_pool.full_isolation_pool",
+            "scaleway_vpc_gateway_network.shopsecure_gateway_network",
+            "scaleway_vpc_private_network.shopsecure_pn",
+            "scaleway_vpc_public_gateway.shopsecure_gateway"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "scaleway_k8s_cluster",
+      "name": "shopsecure_cluster",
+      "provider": "provider[\"registry.terraform.io/scaleway/scaleway\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "admission_plugins": [],
+            "apiserver_cert_sans": [],
+            "apiserver_url": "https://63d30c3e-888a-4f58-adc7-c73a08e332a5.api.k8s.pl-waw.scw.cloud:6443",
+            "auto_upgrade": [
+              {
+                "enable": false,
+                "maintenance_window_day": "any",
+                "maintenance_window_start_hour": 0
+              }
+            ],
+            "autoscaler_config": [
+              {
+                "balance_similar_node_groups": false,
+                "disable_scale_down": false,
+                "estimator": "binpacking",
+                "expander": "random",
+                "expendable_pods_priority_cutoff": 0,
+                "ignore_daemonsets_utilization": false,
+                "max_graceful_termination_sec": 0,
+                "scale_down_delay_after_add": "10m",
+                "scale_down_unneeded_time": "10m",
+                "scale_down_utilization_threshold": 0.5
+              }
+            ],
+            "cni": "cilium",
+            "created_at": "2025-11-19T10:19:57Z",
+            "delete_additional_resources": true,
+            "description": "",
+            "feature_gates": [],
+            "id": "pl-waw/63d30c3e-888a-4f58-adc7-c73a08e332a5",
+            "kubeconfig": [
+              {
+                "cluster_ca_certificate": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJXekNDQVFHZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQVZNUk13RVFZRFZRUURFd3ByZFdKbGNtNWwKZEdWek1CNFhEVEkxTVRFeE9ERXdNVGsxTjFvWERUTTFNVEV4T0RFd01UazFOMW93RlRFVE1CRUdBMVVFQXhNSwphM1ZpWlhKdVpYUmxjekJaTUJNR0J5cUdTTTQ5QWdFR0NDcUdTTTQ5QXdFSEEwSUFCR0lVdXI3VHZwd0FRYWtFCnFJTVpZb0s4V0U2WVpnejVvbXlnVW5qV1MzK0dxVHFKY2NwSkpwL1pRc1FFUDd3UUs5YWZ6YUNRVjZuV3hUTVUKdjNDTnhzV2pRakJBTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQjBHQTFVZApEZ1FXQkJTQW14NENLV3dhcUtXZStieHJDdnhHcEZmR0pEQUtCZ2dxaGtqT1BRUURBZ05JQURCRkFpQXhvc211CitlNXN1alhYeG43QmRxNWM0QmpMR3ZUUklqNlgwM3daS2JCSER3SWhBT3lRV2x3MG1PWkRjUlIyZ0h3L2owK24KWU9ReitZOUlpb0JqNlZnMHhoUjMKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=",
+                "config_file": "apiVersion: v1\nclusters:\n- name: \"shopsecure-kapsule-cluster\"\n  cluster:\n    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJXekNDQVFHZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQVZNUk13RVFZRFZRUURFd3ByZFdKbGNtNWwKZEdWek1CNFhEVEkxTVRFeE9ERXdNVGsxTjFvWERUTTFNVEV4T0RFd01UazFOMW93RlRFVE1CRUdBMVVFQXhNSwphM1ZpWlhKdVpYUmxjekJaTUJNR0J5cUdTTTQ5QWdFR0NDcUdTTTQ5QXdFSEEwSUFCR0lVdXI3VHZwd0FRYWtFCnFJTVpZb0s4V0U2WVpnejVvbXlnVW5qV1MzK0dxVHFKY2NwSkpwL1pRc1FFUDd3UUs5YWZ6YUNRVjZuV3hUTVUKdjNDTnhzV2pRakJBTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQjBHQTFVZApEZ1FXQkJTQW14NENLV3dhcUtXZStieHJDdnhHcEZmR0pEQUtCZ2dxaGtqT1BRUURBZ05JQURCRkFpQXhvc211CitlNXN1alhYeG43QmRxNWM0QmpMR3ZUUklqNlgwM3daS2JCSER3SWhBT3lRV2x3MG1PWkRjUlIyZ0h3L2owK24KWU9ReitZOUlpb0JqNlZnMHhoUjMKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=\n    server: https://63d30c3e-888a-4f58-adc7-c73a08e332a5.api.k8s.pl-waw.scw.cloud:6443\ncontexts:\n- name: admin@shopsecure-kapsule-cluster\n  context:\n    cluster: \"shopsecure-kapsule-cluster\"\n    user: shopsecure-kapsule-cluster-admin\ncurrent-context: admin@shopsecure-kapsule-cluster\nkind: Config\npreferences: {}\nusers:\n- name: shopsecure-kapsule-cluster-admin\n  user:\n    token: TpOP4HWr0sncUwnKq0MnjY9I51BaLTwrGBaLU5WVrn665Yw6NEgZgX4F",
+                "host": "https://63d30c3e-888a-4f58-adc7-c73a08e332a5.api.k8s.pl-waw.scw.cloud:6443",
+                "token": "TpOP4HWr0sncUwnKq0MnjY9I51BaLTwrGBaLU5WVrn665Yw6NEgZgX4F"
+              }
+            ],
+            "name": "shopsecure-kapsule-cluster",
+            "open_id_connect_config": [
+              {
+                "client_id": "",
+                "groups_claim": [],
+                "groups_prefix": "",
+                "issuer_url": "",
+                "required_claim": [],
+                "username_claim": "",
+                "username_prefix": ""
+              }
+            ],
+            "organization_id": "002c0a6c-bfdb-4714-83b1-d109ffd161ba",
+            "pod_cidr": "100.64.0.0/15",
+            "private_network_id": "f69fe32e-8dc3-4da5-b160-4b40309349fe",
+            "project_id": "002c0a6c-bfdb-4714-83b1-d109ffd161ba",
+            "region": "pl-waw",
+            "service_cidr": "10.32.0.0/20",
+            "service_dns_ip": "10.32.0.10",
+            "status": "ready",
+            "tags": [],
+            "timeouts": null,
+            "type": "kapsule",
+            "updated_at": "2025-11-19T10:21:45Z",
+            "upgrade_available": true,
+            "version": "1.33.4",
+            "wildcard_dns": "*.63d30c3e-888a-4f58-adc7-c73a08e332a5.nodes.k8s.pl-waw.scw.cloud"
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "kubeconfig"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo5MDAwMDAwMDAwMDAsImRlZmF1bHQiOjkwMDAwMDAwMDAwMCwiZGVsZXRlIjo5MDAwMDAwMDAwMDAsInJlYWQiOjkwMDAwMDAwMDAwMCwidXBkYXRlIjo5MDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "scaleway_vpc_private_network.shopsecure_pn"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "scaleway_k8s_pool",
+      "name": "full_isolation_pool",
+      "provider": "provider[\"registry.terraform.io/scaleway/scaleway\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "autohealing": true,
+            "autoscaling": true,
+            "cluster_id": "pl-waw/63d30c3e-888a-4f58-adc7-c73a08e332a5",
+            "container_runtime": "containerd",
+            "created_at": "2025-11-19T10:20:23Z",
+            "current_size": 2,
+            "id": "pl-waw/237ddc2e-7429-479b-8567-a5fcdb63c2d7",
+            "kubelet_args": {},
+            "max_size": 5,
+            "min_size": 2,
+            "name": "full-isolation-pool",
+            "node_type": "dev1_m",
+            "nodes": [
+              {
+                "id": "1dc096b9-c1f4-4219-a08a-b7c04641f071",
+                "name": "scw-shopsecure-kapsule-cl-full-isolatio-1dc096",
+                "private_ips": [
+                  {
+                    "address": "fdb2:5248:b879:d037:49e:a09d:559e:8b36",
+                    "id": "pl-waw/7adf0a06-0a89-47af-98c9-f10212e9e264"
+                  },
+                  {
+                    "address": "172.16.20.5",
+                    "id": "pl-waw/bd6c10b4-6f99-48c9-9f0a-690d09aa2959"
+                  }
+                ],
+                "public_ip": "",
+                "public_ip_v6": "",
+                "status": "ready"
+              },
+              {
+                "id": "732d3410-4539-4092-91a4-a158e54ad058",
+                "name": "scw-shopsecure-kapsule-cl-full-isolatio-732d34",
+                "private_ips": [
+                  {
+                    "address": "fdb2:5248:b879:d037:e323:ed7b:ae11:fb9",
+                    "id": "pl-waw/7a59b7e8-1db7-45f5-96cb-d96bef46acb3"
+                  },
+                  {
+                    "address": "172.16.20.6",
+                    "id": "pl-waw/12ef3d8c-e82c-4316-95e8-1baed4e71630"
+                  }
+                ],
+                "public_ip": "",
+                "public_ip_v6": "",
+                "status": "ready"
+              }
+            ],
+            "placement_group_id": null,
+            "public_ip_disabled": true,
+            "region": "pl-waw",
+            "root_volume_size_in_gb": 40,
+            "root_volume_type": "l_ssd",
+            "security_group_id": "8b91deb9-e82e-4242-8f3e-669f187154fa",
+            "size": 2,
+            "status": "ready",
+            "tags": [],
+            "timeouts": null,
+            "updated_at": "2025-11-19T10:23:17Z",
+            "upgrade_policy": [
+              {
+                "max_surge": 0,
+                "max_unavailable": 1
+              }
+            ],
+            "version": "1.33.4",
+            "wait_for_pool_ready": true,
+            "zone": "pl-waw-1"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWZhdWx0IjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInJlYWQiOjE4MDAwMDAwMDAwMDAsInVwZGF0ZSI6MTgwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "scaleway_k8s_cluster.shopsecure_cluster",
+            "scaleway_vpc_gateway_network.shopsecure_gateway_network",
+            "scaleway_vpc_private_network.shopsecure_pn",
+            "scaleway_vpc_public_gateway.shopsecure_gateway"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "scaleway_lb_ip",
+      "name": "woo_lb_ip",
+      "provider": "provider[\"registry.terraform.io/scaleway/scaleway\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "id": "pl-waw-1/1bfeb2b4-0dd4-435d-8c82-55a57a1e6135",
+            "ip_address": "151.115.15.123",
+            "is_ipv6": false,
+            "lb_id": "",
+            "organization_id": "002c0a6c-bfdb-4714-83b1-d109ffd161ba",
+            "project_id": "002c0a6c-bfdb-4714-83b1-d109ffd161ba",
+            "region": "pl-waw",
+            "reverse": "151-115-15-123.lb.pl-waw.scw.cloud",
+            "tags": [],
+            "timeouts": null,
+            "zone": "pl-waw-1"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo5MDAwMDAwMDAwMDAsImRlZmF1bHQiOjkwMDAwMDAwMDAwMCwiZGVsZXRlIjo5MDAwMDAwMDAwMDAsInJlYWQiOjkwMDAwMDAwMDAwMCwidXBkYXRlIjo5MDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "scaleway_rdb_instance",
+      "name": "woocommerce_db",
+      "provider": "provider[\"registry.terraform.io/scaleway/scaleway\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "backup_same_region": false,
+            "backup_schedule_frequency": 24,
+            "backup_schedule_retention": 7,
+            "certificate": "-----BEGIN CERTIFICATE-----\nMIIDZjCCAk6gAwIBAgIUAIhTnT4cXepPl0kSaBaM5yOwJxswDQYJKoZIhvcNAQEL\nBQAwVjELMAkGA1UEBhMCRlIxDjAMBgNVBAgMBVBhcmlzMQ4wDAYDVQQHDAVQYXJp\nczERMA8GA1UECgwIU2NhbGV3YXkxFDASBgNVBAMMCzE3Mi4xNi4yMC4yMB4XDTI1\nMTExOTEwMjA1MloXDTM1MTExNzEwMjA1MlowVjELMAkGA1UEBhMCRlIxDjAMBgNV\nBAgMBVBhcmlzMQ4wDAYDVQQHDAVQYXJpczERMA8GA1UECgwIU2NhbGV3YXkxFDAS\nBgNVBAMMCzE3Mi4xNi4yMC4yMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC\nAQEA3j91arNiO7O900BKuAoNtzqe34GHbyFSabfC+5qemtimrYV+2qNYRsqSLLbm\nRnDsBdZIlN49DpAyTKDB3wVzLHlreEUitlB7n9/jFSOoC+G2hmzhJm8OhioNTXOX\n1cx0FWJb/YMIbMaz9oByiWqhaxHQxyvmW4OrvQdzANJ9AaDjuewxIQryaerbM83K\nBFBL/AtK8rSuE+qDAdiwhF7JceI91SK6b6Aa/vHK1X22gJMt7y1vPpSO8Dtxm7qf\nWbZbBstF0Vo3rNBJqDPfA6C2jmM9yvA/1Hgl9O70DT53PVBbd+Q9A8X2Gy+txDbH\nFHP+R7vfYeY+Z+ljIiNv8WaugwIDAQABoywwKjAoBgNVHREEITAfggsxNzIuMTYu\nMjAuMocEl3M3cYcEl3M3nYcErBAUAjANBgkqhkiG9w0BAQsFAAOCAQEALXQoHGgX\nd40icR/Gox+eSLkZiwApxCWzNfYd4/axpCOt677Y3zFwrfAZueqAaNUfQzIrLmVh\n/Ml79gpLITTJF0P6s2/Ws/ZEnri+uwkH4y55QPoPw/niJmMN1aivi/o5zgcJy83K\nEDXYIWNHODQ9HUPB/n9WoSD1SY9alfFaz5Erarg1ZLtCPg/WHosK3vi6t4tubz4K\no/6RcXCAO5lHm1ZVpFw7E8BYYMAPWWdLevAenJPHmm0OQaD3qn9xrU7rN2ojp/0b\n7TWOese+cK6PcDiskeJ/2NyGwA8hlrubmjOcGJNdRrUbudm94/JWWYbAI+FfNWDq\nm0nr65FSoNzJcw==\n-----END CERTIFICATE-----\n",
+            "disable_backup": false,
+            "encryption_at_rest": false,
+            "endpoint_ip": "",
+            "endpoint_port": 0,
+            "engine": "MySQL-8",
+            "id": "pl-waw/c66533e8-30f2-4007-9c9e-4426029e5826",
+            "init_settings": {},
+            "is_ha_cluster": true,
+            "load_balancer": [],
+            "logs_policy": [
+              {
+                "max_age_retention": 30,
+                "total_disk_retention": 0
+              }
+            ],
+            "name": "shopsecure-woocommerce-db",
+            "node_type": "db-dev-s",
+            "organization_id": "002c0a6c-bfdb-4714-83b1-d109ffd161ba",
+            "password": "Passwd4db1!",
+            "private_ip": [
+              {
+                "address": "172.16.20.2",
+                "id": "pl-waw/2fb84b0a-d733-40c3-92c5-38ba00f633a6"
+              }
+            ],
+            "private_network": [
+              {
+                "enable_ipam": true,
+                "endpoint_id": "8ea01450-66da-4792-92e3-41b536b0e8e2",
+                "hostname": "",
+                "ip": "172.16.20.2",
+                "ip_net": "172.16.20.2/22",
+                "name": "",
+                "pn_id": "pl-waw/f69fe32e-8dc3-4da5-b160-4b40309349fe",
+                "port": 3306,
+                "zone": ""
+              }
+            ],
+            "project_id": "002c0a6c-bfdb-4714-83b1-d109ffd161ba",
+            "read_replicas": [],
+            "region": "pl-waw",
+            "settings": {
+              "max_connections": "100"
+            },
+            "snapshot_id": null,
+            "tags": [],
+            "timeouts": null,
+            "upgradable_versions": [],
+            "user_name": "admin",
+            "volume_size_in_gb": 5,
+            "volume_type": "lssd"
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "password"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWZhdWx0IjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInJlYWQiOjE4MDAwMDAwMDAwMDAsInVwZGF0ZSI6MTgwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "scaleway_vpc_private_network.shopsecure_pn"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "scaleway_vpc_gateway_network",
+      "name": "shopsecure_gateway_network",
+      "provider": "provider[\"registry.terraform.io/scaleway/scaleway\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "cleanup_dhcp": null,
+            "created_at": "2025-11-19T10:20:07Z",
+            "dhcp_id": null,
+            "enable_dhcp": null,
+            "enable_masquerade": true,
+            "gateway_id": "pl-waw-1/870bdbdf-f4ab-4ea2-a126-0883622ca93d",
+            "id": "pl-waw-1/d42070a0-9a7f-42b8-89f8-e80816bed151",
+            "ipam_config": [
+              {
+                "ipam_ip_id": "15069b1b-6212-4fc6-b37c-c0279592262d",
+                "push_default_route": true
+              }
+            ],
+            "mac_address": "02:00:00:15:E8:D9",
+            "private_ip": [
+              {
+                "address": "172.16.20.3",
+                "id": "pl-waw/15069b1b-6212-4fc6-b37c-c0279592262d"
+              }
+            ],
+            "private_network_id": "pl-waw/f69fe32e-8dc3-4da5-b160-4b40309349fe",
+            "static_address": null,
+            "status": "ready",
+            "timeouts": null,
+            "updated_at": "2025-11-19T10:20:17Z",
+            "zone": "pl-waw-1"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlZmF1bHQiOjYwMDAwMDAwMDAwMCwiZGVsZXRlIjo2MDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjo2MDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "scaleway_vpc_private_network.shopsecure_pn",
+            "scaleway_vpc_public_gateway.shopsecure_gateway"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "scaleway_vpc_private_network",
+      "name": "shopsecure_pn",
+      "provider": "provider[\"registry.terraform.io/scaleway/scaleway\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "created_at": "2025-11-19T10:19:55Z",
+            "enable_default_route_propagation": false,
+            "id": "pl-waw/f69fe32e-8dc3-4da5-b160-4b40309349fe",
+            "ipv4_subnet": [
+              {
+                "address": "172.16.20.0",
+                "created_at": "2025-11-19T10:19:55Z",
+                "id": "092508e1-b43d-430b-aefe-b7100a85ea26",
+                "prefix_length": 22,
+                "subnet": "172.16.20.0/22",
+                "subnet_mask": "255.255.252.0",
+                "updated_at": "2025-11-19T10:19:55Z"
+              }
+            ],
+            "ipv6_subnets": [
+              {
+                "address": "fdb2:5248:b879:d037::",
+                "created_at": "2025-11-19T10:19:55Z",
+                "id": "948e3008-93a2-48b3-a23b-4fed123eb5fd",
+                "prefix_length": 64,
+                "subnet": "fdb2:5248:b879:d037::/64",
+                "subnet_mask": "255.255.255.255.255.255.255.255.0.0.0.0.0.0.0.0",
+                "updated_at": "2025-11-19T10:19:55Z"
+              }
+            ],
+            "is_regional": true,
+            "name": "shopsecure-private-net",
+            "organization_id": "002c0a6c-bfdb-4714-83b1-d109ffd161ba",
+            "project_id": "002c0a6c-bfdb-4714-83b1-d109ffd161ba",
+            "region": "pl-waw",
+            "tags": [],
+            "updated_at": "2025-11-19T10:20:14Z",
+            "vpc_id": "pl-waw/a6e6d9f5-4ffb-4806-802d-4ec4ddfd878d",
+            "zone": "fr-par-1"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "scaleway_vpc_public_gateway",
+      "name": "shopsecure_gateway",
+      "provider": "provider[\"registry.terraform.io/scaleway/scaleway\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "allowed_ip_ranges": [
+              "0.0.0.0/0"
+            ],
+            "bandwidth": 100,
+            "bastion_enabled": false,
+            "bastion_port": 61000,
+            "created_at": "2025-11-19T10:19:56Z",
+            "enable_smtp": false,
+            "id": "pl-waw-1/870bdbdf-f4ab-4ea2-a126-0883622ca93d",
+            "ip_id": "pl-waw-1/334da8f5-3d18-4e34-bfb8-628f19f24abe",
+            "move_to_ipam": null,
+            "name": "shopsecure-gateway",
+            "organization_id": "002c0a6c-bfdb-4714-83b1-d109ffd161ba",
+            "project_id": "002c0a6c-bfdb-4714-83b1-d109ffd161ba",
+            "refresh_ssh_keys": null,
+            "status": "running",
+            "tags": [],
+            "timeouts": null,
+            "type": "VPC-GW-S",
+            "updated_at": "2025-11-19T10:20:18Z",
+            "upstream_dns_servers": [],
+            "zone": "pl-waw-1"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlZmF1bHQiOjYwMDAwMDAwMDAwMCwiZGVsZXRlIjo2MDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjo2MDAwMDAwMDAwMDB9fQ=="
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
