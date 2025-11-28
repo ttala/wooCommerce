@@ -1,17 +1,30 @@
+data "terraform_remote_state" "infra" {
+  backend = "local"
+
+  config = {
+    path = "../01-infra/terraform.tfstate"
+  }
+}
+
 
 # Providers using Kubeconfig from Infra
 provider "kubernetes" {
-  host                   = var.kubeconfig_host
-  token                  = var.kubeconfig_token
-  cluster_ca_certificate = base64decode(var.kubeconfig_ca)
+  host                   = data.terraform_remote_state.infra.outputs.kubeconfig_host
+  token                  = data.terraform_remote_state.infra.outputs.kubeconfig_token
+  cluster_ca_certificate = base64decode(data.terraform_remote_state.infra.outputs.kubeconfig_ca)
 }
 
 provider "helm" {
   kubernetes {
-    host                   = var.kubeconfig_host
-    token                  = var.kubeconfig_token
-    cluster_ca_certificate = base64decode(var.kubeconfig_ca)
+    host                   = data.terraform_remote_state.infra.outputs.kubeconfig_host
+    token                  = data.terraform_remote_state.infra.outputs.kubeconfig_token
+    cluster_ca_certificate = base64decode(data.terraform_remote_state.infra.outputs.kubeconfig_ca)
   }
+}
+
+# Creating LoadBalancer IP
+resource "scaleway_lb_ip" "woo_lb_ip" {
+  zone = var.zone
 }
 
 
@@ -24,7 +37,7 @@ resource "helm_release" "nginx_ingress" {
 
   set {
     name  = "controller.service.loadBalancerIP"
-    value = var.woo_lb_ip
+    value = scaleway_lb_ip.woo_lb_ip.ip_address
   }
 
   set {
@@ -49,20 +62,6 @@ resource "helm_release" "nginx_ingress" {
 
 }
 
-module "mysql" {
-  source = "../01-infra/main"
-}
-
-module "woocommerce" {
-  source   = "../modules/woocommerce"
-
-  db_host     = module.mysql.db_host
-  db_port     = module.mysql.db_port
-  db_user     = module.mysql.db_user
-  db_password = module.mysql.db_password
-  db_name     = module.mysql.db_name
-}
-
 resource "kubernetes_secret" "woocommerce_env" {
   metadata {
     name      = "woocommerce-env"
@@ -70,14 +69,20 @@ resource "kubernetes_secret" "woocommerce_env" {
   }
 
   data = {
-    DB_HOST     = base64encode(var.db_host)
-    DB_PORT     = base64encode(var.db_port)
-    DB_USER     = base64encode(var.db_user)
-    DB_PASSWORD = base64encode(var.db_password)
-    DB_NAME     = base64encode(var.db_name)
+    WORDPRESS_DB_HOST     = data.terraform_remote_state.infra.outputs.db_host
+    WORDPRESS_DB_PORT     = data.terraform_remote_state.infra.outputs.db_port
+    WORDPRESS_DB_USER     = data.terraform_remote_state.infra.outputs.db_user
+    WORDPRESS_DB_PASSWORD = data.terraform_remote_state.infra.outputs.db_password
+    WORDPRESS_DB_NAME     = var.db_name
+    WORDPRESS_URL         = "woo.kerocam.com"
+    WORDPRESS_ADMIN_EMAIL = "contact@kerocam.com"
   }
 
   type = "Opaque"
+}
+
+output "db_host" {
+  value = data.terraform_remote_state.infra.outputs.db_host
 }
 
 resource "kubernetes_persistent_volume_claim" "woocommerce" {
@@ -87,10 +92,10 @@ resource "kubernetes_persistent_volume_claim" "woocommerce" {
 
   spec {
     access_modes = ["ReadWriteOnce"]
-
+    storage_class_name = "scaleway-immediate"
     resources {
       requests = {
-        storage = "10Gi"
+        storage = "8Gi"
       }
     }
   }
@@ -105,7 +110,7 @@ resource "kubernetes_deployment" "woocommerce" {
   }
 
   spec {
-    replicas = 2
+    replicas = 1
 
     selector {
       match_labels = {

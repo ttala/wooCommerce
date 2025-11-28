@@ -1,0 +1,1013 @@
+{
+  "version": 4,
+  "terraform_version": "1.13.5",
+  "serial": 18,
+  "lineage": "f76c11b7-c64b-4ea8-2682-7a02290fcb95",
+  "outputs": {},
+  "resources": [
+    {
+      "mode": "data",
+      "type": "terraform_remote_state",
+      "name": "infra",
+      "provider": "provider[\"terraform.io/builtin/terraform\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "backend": "local",
+            "config": {
+              "value": {
+                "path": "../01-infra/terraform.tfstate"
+              },
+              "type": [
+                "object",
+                {
+                  "path": "string"
+                }
+              ]
+            },
+            "defaults": null,
+            "outputs": {
+              "value": {
+                "db_host": "172.16.20.2",
+                "db_password": "Passwd4db1!",
+                "db_port": 3306,
+                "db_user": "admin",
+                "kubeconfig_ca": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJXakNDQVFHZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQVZNUk13RVFZRFZRUURFd3ByZFdKbGNtNWwKZEdWek1CNFhEVEkxTVRFeU5UQTJORGMxT0ZvWERUTTFNVEV5TlRBMk5EYzFPRm93RlRFVE1CRUdBMVVFQXhNSwphM1ZpWlhKdVpYUmxjekJaTUJNR0J5cUdTTTQ5QWdFR0NDcUdTTTQ5QXdFSEEwSUFCS292NElUZWtHOGcvelZFCjRRM3BUdUx2VEliYkZ2bDQ5VzlyeVR1YTViRVI0U3JISEdFMmd4dWlVems1cFJqRG1mcVQrRy9Jek9ILzhJZFcKVk11Q0JJS2pRakJBTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQjBHQTFVZApEZ1FXQkJRT2JoNXZZSTRqVXYzUGNpZkJkNm1RUkdVZmxEQUtCZ2dxaGtqT1BRUURBZ05IQURCRUFpQnRYbXQwCjAxSmhRU1ZHemJXMjkwZVRDQXVuczB4c0duRHUvSFRHV01pclRBSWdYQUR2QVM0RTRidU9jQ2pucGQrUEY3NjUKQ0x0NG1rSlg3QTZlVTNORjQrST0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=",
+                "kubeconfig_host": "https://3d3dd712-d330-4102-b702-f945bd4c9507.api.k8s.pl-waw.scw.cloud:6443",
+                "kubeconfig_token": "cVIxafpuVHv1a8xVMPqYUPFiakIs6kG6VmhGxpaGdrtDPdE5OVRYv4iR"
+              },
+              "type": [
+                "object",
+                {
+                  "db_host": "string",
+                  "db_password": "string",
+                  "db_port": "number",
+                  "db_user": "string",
+                  "kubeconfig_ca": "string",
+                  "kubeconfig_host": "string",
+                  "kubeconfig_token": "string"
+                }
+              ]
+            },
+            "workspace": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "helm_release",
+      "name": "nginx_ingress",
+      "provider": "provider[\"registry.terraform.io/hashicorp/helm\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "atomic": false,
+            "chart": "ingress-nginx",
+            "cleanup_on_fail": false,
+            "create_namespace": false,
+            "dependency_update": false,
+            "description": null,
+            "devel": null,
+            "disable_crd_hooks": false,
+            "disable_openapi_validation": false,
+            "disable_webhooks": false,
+            "force_update": false,
+            "id": "nginx-ingress",
+            "keyring": null,
+            "lint": false,
+            "manifest": null,
+            "max_history": 0,
+            "metadata": [
+              {
+                "app_version": "1.14.0",
+                "chart": "ingress-nginx",
+                "name": "nginx-ingress",
+                "namespace": "kube-system",
+                "revision": 1,
+                "values": "{\"controller\":{\"config\":{\"use-proxy-protocol\":true},\"service\":{\"annotations\":{\"service.beta.kubernetes.io/scw-loadbalancer-proxy-protocol-v2\":true,\"service.beta.kubernetes.io/scw-loadbalancer-zone\":\"pl-waw-1\"},\"externalTrafficPolicy\":\"Local\",\"loadBalancerIP\":\"151.115.12.203\"}}}",
+                "version": "4.14.0"
+              }
+            ],
+            "name": "nginx-ingress",
+            "namespace": "kube-system",
+            "pass_credentials": false,
+            "postrender": [],
+            "recreate_pods": false,
+            "render_subchart_notes": true,
+            "replace": false,
+            "repository": "https://kubernetes.github.io/ingress-nginx",
+            "repository_ca_file": null,
+            "repository_cert_file": null,
+            "repository_key_file": null,
+            "repository_password": null,
+            "repository_username": null,
+            "reset_values": false,
+            "reuse_values": false,
+            "set": [
+              {
+                "name": "controller.config.use-proxy-protocol",
+                "type": "",
+                "value": "true"
+              },
+              {
+                "name": "controller.service.annotations.service\\.beta\\.kubernetes\\.io/scw-loadbalancer-proxy-protocol-v2",
+                "type": "",
+                "value": "true"
+              },
+              {
+                "name": "controller.service.annotations.service\\.beta\\.kubernetes\\.io/scw-loadbalancer-zone",
+                "type": "",
+                "value": "pl-waw-1"
+              },
+              {
+                "name": "controller.service.externalTrafficPolicy",
+                "type": "",
+                "value": "Local"
+              },
+              {
+                "name": "controller.service.loadBalancerIP",
+                "type": "",
+                "value": "151.115.12.203"
+              }
+            ],
+            "set_list": [],
+            "set_sensitive": [],
+            "skip_crds": false,
+            "status": "deployed",
+            "timeout": 300,
+            "values": null,
+            "verify": false,
+            "version": "4.14.0",
+            "wait": true,
+            "wait_for_jobs": false
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "repository_password"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ==",
+          "dependencies": [
+            "data.terraform_remote_state.infra",
+            "scaleway_lb_ip.woo_lb_ip"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "kubernetes_deployment",
+      "name": "woocommerce",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "status": "tainted",
+          "schema_version": 1,
+          "attributes": {
+            "id": "default/woocommerce",
+            "metadata": [
+              {
+                "annotations": null,
+                "generate_name": "",
+                "generation": 0,
+                "labels": {
+                  "app": "woocommerce"
+                },
+                "name": "woocommerce",
+                "namespace": "default",
+                "resource_version": "",
+                "uid": ""
+              }
+            ],
+            "spec": [
+              {
+                "min_ready_seconds": 0,
+                "paused": false,
+                "progress_deadline_seconds": 600,
+                "replicas": "2",
+                "revision_history_limit": 10,
+                "selector": [
+                  {
+                    "match_expressions": [],
+                    "match_labels": {
+                      "app": "woocommerce"
+                    }
+                  }
+                ],
+                "strategy": [],
+                "template": [
+                  {
+                    "metadata": [
+                      {
+                        "annotations": null,
+                        "generate_name": "",
+                        "generation": 0,
+                        "labels": {
+                          "app": "woocommerce"
+                        },
+                        "name": "",
+                        "namespace": "",
+                        "resource_version": "",
+                        "uid": ""
+                      }
+                    ],
+                    "spec": [
+                      {
+                        "active_deadline_seconds": 0,
+                        "affinity": [],
+                        "automount_service_account_token": true,
+                        "container": [
+                          {
+                            "args": null,
+                            "command": null,
+                            "env": [],
+                            "env_from": [
+                              {
+                                "config_map_ref": [],
+                                "prefix": "",
+                                "secret_ref": [
+                                  {
+                                    "name": "woocommerce-env",
+                                    "optional": false
+                                  }
+                                ]
+                              }
+                            ],
+                            "image": "rg.fr-par.scw.cloud/ns-woocom/woocommerce:latest",
+                            "image_pull_policy": "",
+                            "lifecycle": [],
+                            "liveness_probe": [
+                              {
+                                "exec": [],
+                                "failure_threshold": 3,
+                                "grpc": [],
+                                "http_get": [
+                                  {
+                                    "host": "",
+                                    "http_header": [],
+                                    "path": "/",
+                                    "port": "80",
+                                    "scheme": "HTTP"
+                                  }
+                                ],
+                                "initial_delay_seconds": 0,
+                                "period_seconds": 10,
+                                "success_threshold": 1,
+                                "tcp_socket": [],
+                                "timeout_seconds": 1
+                              }
+                            ],
+                            "name": "woocommerce",
+                            "port": [
+                              {
+                                "container_port": 80,
+                                "host_ip": "",
+                                "host_port": 0,
+                                "name": "",
+                                "protocol": "TCP"
+                              }
+                            ],
+                            "readiness_probe": [
+                              {
+                                "exec": [],
+                                "failure_threshold": 3,
+                                "grpc": [],
+                                "http_get": [
+                                  {
+                                    "host": "",
+                                    "http_header": [],
+                                    "path": "/",
+                                    "port": "80",
+                                    "scheme": "HTTP"
+                                  }
+                                ],
+                                "initial_delay_seconds": 0,
+                                "period_seconds": 10,
+                                "success_threshold": 1,
+                                "tcp_socket": [],
+                                "timeout_seconds": 1
+                              }
+                            ],
+                            "resources": [],
+                            "security_context": [],
+                            "startup_probe": [],
+                            "stdin": false,
+                            "stdin_once": false,
+                            "termination_message_path": "/dev/termination-log",
+                            "termination_message_policy": "",
+                            "tty": false,
+                            "volume_device": [],
+                            "volume_mount": [
+                              {
+                                "mount_path": "/var/www/html/wp-content",
+                                "mount_propagation": "None",
+                                "name": "woocommerce-data",
+                                "read_only": false,
+                                "sub_path": "",
+                                "sub_path_expr": ""
+                              }
+                            ],
+                            "working_dir": ""
+                          }
+                        ],
+                        "dns_config": [],
+                        "dns_policy": "ClusterFirst",
+                        "enable_service_links": true,
+                        "host_aliases": [],
+                        "host_ipc": false,
+                        "host_network": false,
+                        "host_pid": false,
+                        "hostname": "",
+                        "image_pull_secrets": [],
+                        "init_container": [],
+                        "node_name": "",
+                        "node_selector": null,
+                        "os": [],
+                        "priority_class_name": "",
+                        "readiness_gate": [],
+                        "restart_policy": "Always",
+                        "runtime_class_name": "",
+                        "scheduler_name": "",
+                        "security_context": [],
+                        "service_account_name": "",
+                        "share_process_namespace": false,
+                        "subdomain": "",
+                        "termination_grace_period_seconds": 30,
+                        "toleration": [],
+                        "topology_spread_constraint": [],
+                        "volume": [
+                          {
+                            "aws_elastic_block_store": [],
+                            "azure_disk": [],
+                            "azure_file": [],
+                            "ceph_fs": [],
+                            "cinder": [],
+                            "config_map": [],
+                            "csi": [],
+                            "downward_api": [],
+                            "empty_dir": [],
+                            "ephemeral": [],
+                            "fc": [],
+                            "flex_volume": [],
+                            "flocker": [],
+                            "gce_persistent_disk": [],
+                            "git_repo": [],
+                            "glusterfs": [],
+                            "host_path": [],
+                            "iscsi": [],
+                            "local": [],
+                            "name": "woocommerce-data",
+                            "nfs": [],
+                            "persistent_volume_claim": [
+                              {
+                                "claim_name": "woocommerce-pvc",
+                                "read_only": false
+                              }
+                            ],
+                            "photon_persistent_disk": [],
+                            "projected": [],
+                            "quobyte": [],
+                            "rbd": [],
+                            "secret": [],
+                            "vsphere_volume": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "timeouts": null,
+            "wait_for_rollout": true
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": null,
+            "kind": null,
+            "name": null,
+            "namespace": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "data.terraform_remote_state.infra",
+            "kubernetes_persistent_volume_claim.woocommerce",
+            "kubernetes_secret.woocommerce_env"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "kubernetes_manifest",
+      "name": "woocommerce_ingress",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "computed_fields": null,
+            "field_manager": [],
+            "manifest": {
+              "value": {
+                "apiVersion": "networking.k8s.io/v1",
+                "kind": "Ingress",
+                "metadata": {
+                  "annotations": {
+                    "kubernetes.io/ingress.class": "nginx"
+                  },
+                  "name": "woocommerce",
+                  "namespace": "default"
+                },
+                "spec": {
+                  "rules": [
+                    {
+                      "host": "woo.kerocam.com",
+                      "http": {
+                        "paths": [
+                          {
+                            "backend": {
+                              "service": {
+                                "name": "woocommerce",
+                                "port": {
+                                  "number": 80
+                                }
+                              }
+                            },
+                            "path": "/",
+                            "pathType": "Prefix"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              "type": [
+                "object",
+                {
+                  "apiVersion": "string",
+                  "kind": "string",
+                  "metadata": [
+                    "object",
+                    {
+                      "annotations": [
+                        "object",
+                        {
+                          "kubernetes.io/ingress.class": "string"
+                        }
+                      ],
+                      "name": "string",
+                      "namespace": "string"
+                    }
+                  ],
+                  "spec": [
+                    "object",
+                    {
+                      "rules": [
+                        "tuple",
+                        [
+                          [
+                            "object",
+                            {
+                              "host": "string",
+                              "http": [
+                                "object",
+                                {
+                                  "paths": [
+                                    "tuple",
+                                    [
+                                      [
+                                        "object",
+                                        {
+                                          "backend": [
+                                            "object",
+                                            {
+                                              "service": [
+                                                "object",
+                                                {
+                                                  "name": "string",
+                                                  "port": [
+                                                    "object",
+                                                    {
+                                                      "number": "number"
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ],
+                                          "path": "string",
+                                          "pathType": "string"
+                                        }
+                                      ]
+                                    ]
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "object": {
+              "value": {
+                "apiVersion": "networking.k8s.io/v1",
+                "kind": "Ingress",
+                "metadata": {
+                  "annotations": {
+                    "kubernetes.io/ingress.class": "nginx"
+                  },
+                  "creationTimestamp": null,
+                  "deletionGracePeriodSeconds": null,
+                  "deletionTimestamp": null,
+                  "finalizers": null,
+                  "generateName": null,
+                  "generation": null,
+                  "labels": null,
+                  "managedFields": null,
+                  "name": "woocommerce",
+                  "namespace": "default",
+                  "ownerReferences": null,
+                  "resourceVersion": null,
+                  "selfLink": null,
+                  "uid": null
+                },
+                "spec": {
+                  "defaultBackend": {
+                    "resource": {
+                      "apiGroup": null,
+                      "kind": null,
+                      "name": null
+                    },
+                    "service": {
+                      "name": null,
+                      "port": {
+                        "name": null,
+                        "number": null
+                      }
+                    }
+                  },
+                  "ingressClassName": null,
+                  "rules": [
+                    {
+                      "host": "woo.kerocam.com",
+                      "http": {
+                        "paths": [
+                          {
+                            "backend": {
+                              "resource": {
+                                "apiGroup": null,
+                                "kind": null,
+                                "name": null
+                              },
+                              "service": {
+                                "name": "woocommerce",
+                                "port": {
+                                  "name": null,
+                                  "number": 80
+                                }
+                              }
+                            },
+                            "path": "/",
+                            "pathType": "Prefix"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "tls": null
+                }
+              },
+              "type": [
+                "object",
+                {
+                  "apiVersion": "string",
+                  "kind": "string",
+                  "metadata": [
+                    "object",
+                    {
+                      "annotations": [
+                        "map",
+                        "string"
+                      ],
+                      "creationTimestamp": "string",
+                      "deletionGracePeriodSeconds": "number",
+                      "deletionTimestamp": "string",
+                      "finalizers": [
+                        "list",
+                        "string"
+                      ],
+                      "generateName": "string",
+                      "generation": "number",
+                      "labels": [
+                        "map",
+                        "string"
+                      ],
+                      "managedFields": [
+                        "tuple",
+                        [
+                          [
+                            "object",
+                            {
+                              "apiVersion": "string",
+                              "fieldsType": "string",
+                              "fieldsV1": "dynamic",
+                              "manager": "string",
+                              "operation": "string",
+                              "subresource": "string",
+                              "time": "string"
+                            }
+                          ]
+                        ]
+                      ],
+                      "name": "string",
+                      "namespace": "string",
+                      "ownerReferences": [
+                        "list",
+                        [
+                          "object",
+                          {
+                            "apiVersion": "string",
+                            "blockOwnerDeletion": "bool",
+                            "controller": "bool",
+                            "kind": "string",
+                            "name": "string",
+                            "uid": "string"
+                          }
+                        ]
+                      ],
+                      "resourceVersion": "string",
+                      "selfLink": "string",
+                      "uid": "string"
+                    }
+                  ],
+                  "spec": [
+                    "object",
+                    {
+                      "defaultBackend": [
+                        "object",
+                        {
+                          "resource": [
+                            "object",
+                            {
+                              "apiGroup": "string",
+                              "kind": "string",
+                              "name": "string"
+                            }
+                          ],
+                          "service": [
+                            "object",
+                            {
+                              "name": "string",
+                              "port": [
+                                "object",
+                                {
+                                  "name": "string",
+                                  "number": "number"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      "ingressClassName": "string",
+                      "rules": [
+                        "list",
+                        [
+                          "object",
+                          {
+                            "host": "string",
+                            "http": [
+                              "object",
+                              {
+                                "paths": [
+                                  "list",
+                                  [
+                                    "object",
+                                    {
+                                      "backend": [
+                                        "object",
+                                        {
+                                          "resource": [
+                                            "object",
+                                            {
+                                              "apiGroup": "string",
+                                              "kind": "string",
+                                              "name": "string"
+                                            }
+                                          ],
+                                          "service": [
+                                            "object",
+                                            {
+                                              "name": "string",
+                                              "port": [
+                                                "object",
+                                                {
+                                                  "name": "string",
+                                                  "number": "number"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "path": "string",
+                                      "pathType": "string"
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      ],
+                      "tls": [
+                        "list",
+                        [
+                          "object",
+                          {
+                            "hosts": [
+                              "list",
+                              "string"
+                            ],
+                            "secretName": "string"
+                          }
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "timeouts": [],
+            "wait": [],
+            "wait_for": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "networking.k8s.io/v1",
+            "kind": "Ingress",
+            "name": "woocommerce",
+            "namespace": "default"
+          },
+          "dependencies": [
+            "data.terraform_remote_state.infra"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "kubernetes_persistent_volume_claim",
+      "name": "woocommerce",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "default/woocommerce-pvc",
+            "metadata": [
+              {
+                "annotations": null,
+                "generate_name": "",
+                "generation": 0,
+                "labels": null,
+                "name": "woocommerce-pvc",
+                "namespace": "default",
+                "resource_version": "17344855877",
+                "uid": "56f893fe-edd3-4a32-8b17-e56dc6043311"
+              }
+            ],
+            "spec": [
+              {
+                "access_modes": [
+                  "ReadWriteOnce"
+                ],
+                "resources": [
+                  {
+                    "limits": null,
+                    "requests": {
+                      "storage": "10Gi"
+                    }
+                  }
+                ],
+                "selector": [],
+                "storage_class_name": "scaleway-immediate",
+                "volume_mode": "Filesystem",
+                "volume_name": "pvc-56f893fe-edd3-4a32-8b17-e56dc6043311"
+              }
+            ],
+            "timeouts": null,
+            "wait_until_bound": true
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "data.terraform_remote_state.infra"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "kubernetes_secret",
+      "name": "woocommerce_env",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "binary_data": null,
+            "binary_data_wo": null,
+            "binary_data_wo_revision": null,
+            "data": {
+              "DB_HOST": "172.16.20.2",
+              "DB_NAME": "rdb",
+              "DB_PASSWORD": "Passwd4db1!",
+              "DB_PORT": "3306",
+              "DB_USER": "admin"
+            },
+            "data_wo": null,
+            "data_wo_revision": null,
+            "id": "default/woocommerce-env",
+            "immutable": false,
+            "metadata": [
+              {
+                "annotations": {},
+                "generate_name": "",
+                "generation": 0,
+                "labels": {},
+                "name": "woocommerce-env",
+                "namespace": "default",
+                "resource_version": "17342983629",
+                "uid": "075d28a5-d879-420e-8de4-0a136348e336"
+              }
+            ],
+            "timeouts": null,
+            "type": "Opaque",
+            "wait_for_service_account_token": true
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "binary_data"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "data"
+              }
+            ]
+          ],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "v1",
+            "kind": "Secret",
+            "name": "woocommerce-env",
+            "namespace": "default"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.terraform_remote_state.infra"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "kubernetes_service",
+      "name": "woocommerce",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "id": "default/woocommerce",
+            "metadata": [
+              {
+                "annotations": {},
+                "generate_name": "",
+                "generation": 0,
+                "labels": {
+                  "app": "woocommerce"
+                },
+                "name": "woocommerce",
+                "namespace": "default",
+                "resource_version": "17342983636",
+                "uid": "507032df-54ff-4a1e-99a2-d81ab9a3d493"
+              }
+            ],
+            "spec": [
+              {
+                "allocate_load_balancer_node_ports": true,
+                "cluster_ip": "10.32.1.105",
+                "cluster_ips": [
+                  "10.32.1.105"
+                ],
+                "external_ips": [],
+                "external_name": "",
+                "external_traffic_policy": "",
+                "health_check_node_port": 0,
+                "internal_traffic_policy": "Cluster",
+                "ip_families": [
+                  "IPv4"
+                ],
+                "ip_family_policy": "SingleStack",
+                "load_balancer_class": "",
+                "load_balancer_ip": "",
+                "load_balancer_source_ranges": [],
+                "port": [
+                  {
+                    "app_protocol": "",
+                    "name": "",
+                    "node_port": 0,
+                    "port": 80,
+                    "protocol": "TCP",
+                    "target_port": "80"
+                  }
+                ],
+                "publish_not_ready_addresses": false,
+                "selector": {
+                  "app": "woocommerce"
+                },
+                "session_affinity": "None",
+                "session_affinity_config": [],
+                "type": "ClusterIP"
+              }
+            ],
+            "status": [
+              {
+                "load_balancer": [
+                  {
+                    "ingress": []
+                  }
+                ]
+              }
+            ],
+            "timeouts": null,
+            "wait_for_load_balancer": true
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "v1",
+            "kind": "Service",
+            "name": "woocommerce",
+            "namespace": "default"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjEifQ==",
+          "dependencies": [
+            "data.terraform_remote_state.infra"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "scaleway_lb_ip",
+      "name": "woo_lb_ip",
+      "provider": "provider[\"registry.terraform.io/scaleway/scaleway\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "id": "pl-waw-1/01e957cd-6363-4f9d-acf6-0dc78128c93b",
+            "ip_address": "151.115.12.203",
+            "is_ipv6": false,
+            "lb_id": "c334e397-2b43-4f14-afed-71938ecbc465",
+            "organization_id": "002c0a6c-bfdb-4714-83b1-d109ffd161ba",
+            "project_id": "002c0a6c-bfdb-4714-83b1-d109ffd161ba",
+            "region": "pl-waw",
+            "reverse": "151-115-12-203.lb.pl-waw.scw.cloud",
+            "tags": [],
+            "timeouts": null,
+            "zone": "pl-waw-1"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo5MDAwMDAwMDAwMDAsImRlZmF1bHQiOjkwMDAwMDAwMDAwMCwiZGVsZXRlIjo5MDAwMDAwMDAwMDAsInJlYWQiOjkwMDAwMDAwMDAwMCwidXBkYXRlIjo5MDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}

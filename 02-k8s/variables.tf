@@ -10,15 +10,8 @@ variable "zone" {
   description = "The scaleway default zone"
 }
 
-variable "kubeconfig_host" {}
-variable "kubeconfig_token" {}
-variable "kubeconfig_ca" {}
-variable "woo_lb_ip" {}
 
-variable "db_host" {}
-variable "db_port" {}
-variable "db_user" {}
-variable "db_password" {}
-variable "db_database" {
+variable "db_name" {
+  type = string
   default = "rdb"
 }

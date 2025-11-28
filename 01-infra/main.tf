@@ -67,9 +67,9 @@ resource "scaleway_k8s_pool" "full_isolation_pool" {
 
 
 # Creating LoadBalancer IP
-resource "scaleway_lb_ip" "woo_lb_ip" {
-  zone = var.zone
-}
+#resource "scaleway_lb_ip" "woo_lb_ip" {
+#  zone = var.zone
+#}
 
 # Kubeconfig outputs
 output "kubeconfig_host" {
@@ -87,9 +87,9 @@ output "kubeconfig_ca" {
   sensitive = true
 }
 
-output "nginx_lb_ip" {
-  value = scaleway_lb_ip.woo_lb_ip.ip_address
-}
+#output "nginx_lb_ip" {
+#  value = scaleway_lb_ip.woo_lb_ip.ip_address
+#}
 
 data "scaleway_k8s_cluster" "shopsecure_cluster" {
   depends_on = [scaleway_k8s_pool.full_isolation_pool]
@@ -97,11 +97,11 @@ data "scaleway_k8s_cluster" "shopsecure_cluster" {
 }
 
 output "db_host" {
-  value = scaleway_rdb_instance.woocommerce_db.endpoint.hostname
+  value = scaleway_rdb_instance.woocommerce_db.private_network[0].ip
 }
 
 output "db_port" {
-  value = scaleway_rdb_instance.woocommerce_db.endpoint.port
+  value = scaleway_rdb_instance.woocommerce_db.private_network[0].port
 }
 
 output "db_user" {
@@ -110,8 +110,6 @@ output "db_user" {
 
 output "db_password" {
   value = scaleway_rdb_instance.woocommerce_db.password
+  sensitive = true
 }
 
-output "db_name" {
-  value = scaleway_rdb_database.woocommerce.name
-}
