@@ -27,6 +27,14 @@ resource "scaleway_lb_ip" "woo_lb_ip" {
   zone = var.zone
 }
 
+#Update DNS
+resource "scaleway_domain_record" "woo" {
+  dns_zone = var.domain
+  name     = var.subdomain
+  type     = "A"
+  data     = scaleway_lb_ip.woo_lb_ip.ip
+  ttl      = 900
+}
 
 # NGINX Ingress controller
 resource "helm_release" "nginx_ingress" {
@@ -74,8 +82,8 @@ resource "kubernetes_secret" "woocommerce_env" {
     WORDPRESS_DB_USER     = data.terraform_remote_state.infra.outputs.db_user
     WORDPRESS_DB_PASSWORD = data.terraform_remote_state.infra.outputs.db_password
     WORDPRESS_DB_NAME     = var.db_name
-    WORDPRESS_URL         = "woo.kerocam.com"
-    WORDPRESS_ADMIN_EMAIL = "contact@kerocam.com"
+    WORDPRESS_URL         = "${var.subdomain}.${var.domain}"
+    WORDPRESS_ADMIN_EMAIL = var.admin_email
   }
 
   type = "Opaque"
@@ -212,7 +220,7 @@ resource "kubernetes_manifest" "woocommerce_ingress" {
     spec = {
       rules = [
         {
-          host = "woo.kerocam.com"
+          host = var.url
 
           http = {
             paths = [

@@ -15,3 +15,18 @@ variable "db_name" {
   type = string
   default = "rdb"
 }
+
+variable "domain" {
+  type = string
+  default = "kerocam.com"
+}
+
+variable "subdomain" {
+  type = string
+  default = "woo"
+}
+
+variable "admin_email" {
+  type = string
+  default = "contact@kerocam.com"
+}
