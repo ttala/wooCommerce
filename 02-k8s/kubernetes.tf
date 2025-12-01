@@ -28,13 +28,13 @@ resource "scaleway_lb_ip" "woo_lb_ip" {
 }
 
 #Update DNS
-resource "scaleway_domain_record" "woo" {
-  dns_zone = var.domain
-  name     = var.subdomain
-  type     = "A"
-  data     = scaleway_lb_ip.woo_lb_ip.ip
-  ttl      = 900
-}
+#resource "scaleway_domain_record" "woo" {
+#  dns_zone = var.domain
+#  name     = var.subdomain
+#  type     = "A"
+#  data     = scaleway_lb_ip.woo_lb_ip.ip_address
+#  ttl      = 900
+#}
 
 # NGINX Ingress controller
 resource "helm_release" "nginx_ingress" {
@@ -93,6 +93,19 @@ output "db_host" {
   value = data.terraform_remote_state.infra.outputs.db_host
 }
 
+# Create new storage class
+resource "kubernetes_storage_class" "scaleway_immediate" {
+  metadata {
+    name = "scaleway-immediate"
+  }
+
+  storage_provisioner = "csi.scaleway.com"
+
+  volume_binding_mode = "Immediate"
+
+}
+
+# Create Persistent volume claim
 resource "kubernetes_persistent_volume_claim" "woocommerce" {
   metadata {
     name = "woocommerce-pvc"
@@ -107,6 +120,9 @@ resource "kubernetes_persistent_volume_claim" "woocommerce" {
       }
     }
   }
+  depends_on = [
+    kubernetes_storage_class.scaleway_immediate
+  ]
 }
 
 resource "kubernetes_deployment" "woocommerce" {
@@ -220,7 +236,7 @@ resource "kubernetes_manifest" "woocommerce_ingress" {
     spec = {
       rules = [
         {
-          host = var.url
+          host = "${var.subdomain}.${var.domain}"
 
           http = {
             paths = [
