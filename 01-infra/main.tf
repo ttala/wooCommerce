@@ -1,13 +1,13 @@
 
 # Creating a private network for cluster isolation
 resource "scaleway_vpc_private_network" "woocom_pn" {
-    name = "shopsecure-private-net"
+    name = "woo-private-net"
     region = var.region
 }
 
 # Creating a public gateway for external access
 resource "scaleway_vpc_public_gateway" "woocom_gateway" {
-    name = "shopsecure-gateway"
+    name = "woo-gateway"
     type = "VPC-GW-S"
     zone = var.zone
 }
@@ -25,7 +25,7 @@ resource "scaleway_vpc_gateway_network" "woocom_gateway_network" {
 
 # Creating a managed MySQL database for WooCommerce
 resource "scaleway_rdb_instance" "woocommerce_db" {
-    name = "shopsecure-woocommerce-db"
+    name = "woo-woocommerce-db"
     node_type = "db-dev-s"
     engine = "MySQL-8"
     is_ha_cluster = true
@@ -41,7 +41,7 @@ resource "scaleway_rdb_instance" "woocommerce_db" {
 
 # Creating a Kubernetes Kapsule cluster
 resource "scaleway_k8s_cluster" "woocom_cluster" {
-    name = "shopsecure-kapsule-cluster"
+    name = "woo-kapsule-cluster"
     version = "1.33.4"
     cni = "cilium"
     private_network_id = scaleway_vpc_private_network.woocom_pn.id
@@ -66,11 +66,6 @@ resource "scaleway_k8s_pool" "full_isolation_pool" {
 }
 
 
-# Creating LoadBalancer IP
-#resource "scaleway_lb_ip" "woo_lb_ip" {
-#  zone = var.zone
-#}
-
 # Kubeconfig outputs
 output "kubeconfig_host" {
   value = scaleway_k8s_cluster.woocom_cluster.kubeconfig[0].host
@@ -86,10 +81,6 @@ output "kubeconfig_ca" {
   value = scaleway_k8s_cluster.woocom_cluster.kubeconfig[0].cluster_ca_certificate
   sensitive = true
 }
-
-#output "nginx_lb_ip" {
-#  value = scaleway_lb_ip.woo_lb_ip.ip_address
-#}
 
 data "scaleway_k8s_cluster" "woocom_cluster" {
   depends_on = [scaleway_k8s_pool.full_isolation_pool]

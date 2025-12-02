@@ -1,7 +1,0 @@
-Command to run to apply the kubernete configuration
-
-terraform apply \
-  -var="kubeconfig_host=$(terraform -chdir=../01-infra output -raw kubeconfig_host)" \
-  -var="kubeconfig_token=$(terraform -chdir=../01-infra output -raw kubeconfig_token)" \
-  -var="kubeconfig_ca=$(terraform -chdir=../01-infra output -raw kubeconfig_ca)" \
-  -var="woo_lb_ip=$(terraform -chdir=../01-infra output -raw nginx_lb_ip)"

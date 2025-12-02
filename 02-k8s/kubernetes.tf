@@ -14,18 +14,6 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(data.terraform_remote_state.infra.outputs.kubeconfig_ca)
 }
 
-provider "helm" {
-  kubernetes {
-    host                   = data.terraform_remote_state.infra.outputs.kubeconfig_host
-    token                  = data.terraform_remote_state.infra.outputs.kubeconfig_token
-    cluster_ca_certificate = base64decode(data.terraform_remote_state.infra.outputs.kubeconfig_ca)
-  }
-}
-
-# Creating LoadBalancer IP
-resource "scaleway_lb_ip" "woo_lb_ip" {
-  zone = var.zone
-}
 
 #Update DNS
 #resource "scaleway_domain_record" "woo" {
@@ -36,39 +24,6 @@ resource "scaleway_lb_ip" "woo_lb_ip" {
 #  ttl      = 900
 #}
 
-# NGINX Ingress controller
-resource "helm_release" "nginx_ingress" {
-  name       = "nginx-ingress"
-  repository = "https://kubernetes.github.io/ingress-nginx"
-  chart      = "ingress-nginx"
-  namespace  = "kube-system"
-
-  set {
-    name  = "controller.service.loadBalancerIP"
-    value = scaleway_lb_ip.woo_lb_ip.ip_address
-  }
-
-  set {
-    name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/scw-loadbalancer-proxy-protocol-v2"
-    value = "true"
-  }
-
-  set {
-    name  = "controller.config.use-proxy-protocol"
-    value = "true"
-  }
-
-  set {
-    name  = "controller.service.externalTrafficPolicy"
-    value = "Local"
-  }
-
-  set {
-    name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/scw-loadbalancer-zone"
-    value = var.zone
-  }
-
-}
 
 resource "kubernetes_secret" "woocommerce_env" {
   metadata {
@@ -82,16 +37,13 @@ resource "kubernetes_secret" "woocommerce_env" {
     WORDPRESS_DB_USER     = data.terraform_remote_state.infra.outputs.db_user
     WORDPRESS_DB_PASSWORD = data.terraform_remote_state.infra.outputs.db_password
     WORDPRESS_DB_NAME     = var.db_name
-    WORDPRESS_URL         = "${var.subdomain}.${var.domain}"
+    #WORDPRESS_URL         = "${var.subdomain}.${var.domain}"
     WORDPRESS_ADMIN_EMAIL = var.admin_email
   }
 
   type = "Opaque"
 }
 
-output "db_host" {
-  value = data.terraform_remote_state.infra.outputs.db_host
-}
 
 # Create new storage class
 resource "kubernetes_storage_class" "scaleway_immediate" {
@@ -152,7 +104,7 @@ resource "kubernetes_deployment" "woocommerce" {
       spec {
         container {
           name  = "woocommerce"
-          image = "rg.fr-par.scw.cloud/ns-woocom/woocommerce:latest"
+          image = var.docker_image
 
           port {
             container_port = 80
@@ -197,16 +149,29 @@ resource "kubernetes_deployment" "woocommerce" {
   }
 }
 
+# Creating LoadBalancer IP
+resource "scaleway_lb_ip" "woo_lb_ip" {
+  zone = var.zone
+}
+
+output "woocommerce_lb" {
+  value = scaleway_lb_ip.woo_lb_ip.ip_address
+}
+
 resource "kubernetes_service" "woocommerce" {
   metadata {
     name = "woocommerce"
     labels = {
       app = "woocommerce"
     }
+    annotations = {
+    "service.beta.kubernetes.io/scaleway-loadbalancer-protocol" = "http"
+  }
   }
 
   spec {
-    type = "ClusterIP"
+    type = "LoadBalancer"
+    load_balancer_ip = scaleway_lb_ip.woo_lb_ip.ip_address
 
     selector = {
       app = "woocommerce"
@@ -217,47 +182,7 @@ resource "kubernetes_service" "woocommerce" {
       target_port = 80
     }
   }
+  depends_on = [
+    scaleway_lb_ip.woo_lb_ip
+  ]
 }
-
-resource "kubernetes_manifest" "woocommerce_ingress" {
-  manifest = {
-    apiVersion = "networking.k8s.io/v1"
-    kind       = "Ingress"
-
-    metadata = {
-      name      = "woocommerce"
-      namespace = "default"
-
-      annotations = {
-        "kubernetes.io/ingress.class" = "nginx"
-      }
-    }
-
-    spec = {
-      rules = [
-        {
-          host = "${var.subdomain}.${var.domain}"
-
-          http = {
-            paths = [
-              {
-                path     = "/"
-                pathType = "Prefix"
-
-                backend = {
-                  service = {
-                    name = "woocommerce"
-                    port = {
-                      number = 80
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      ]
-    }
-  }
-}
-

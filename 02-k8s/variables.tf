@@ -10,23 +10,17 @@ variable "zone" {
   description = "The scaleway default zone"
 }
 
-
 variable "db_name" {
   type = string
   default = "rdb"
 }
 
-variable "domain" {
-  type = string
-  default = "kerocam.com"
-}
-
-variable "subdomain" {
-  type = string
-  default = "woo"
-}
-
 variable "admin_email" {
   type = string
   default = "contact@kerocam.com"
+}
+
+variable "docker_image" {
+  type = string
+  default = "rg.pl-waw.scw.cloud/ns-woocom/woocommerce:latest"
 }
