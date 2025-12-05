@@ -23,6 +23,12 @@ resource "scaleway_vpc_gateway_network" "woocom_gateway_network" {
     }
 }
 
+# Fetch db password
+data "scaleway_secret_version" "db_password" {
+  secret_id  = var.db_password_secret_id
+  version    = "latest"
+}
+
 # Creating a managed MySQL database for WooCommerce
 resource "scaleway_rdb_instance" "woocommerce_db" {
     name = "woo-woocommerce-db"
@@ -30,7 +36,7 @@ resource "scaleway_rdb_instance" "woocommerce_db" {
     engine = "MySQL-8"
     is_ha_cluster = true
     user_name = var.db_user
-    password = var.db_password
+    password = data.scaleway_secret_version.db_password.data
     region = var.region
     private_network {
     pn_id = scaleway_vpc_private_network.woocom_pn.id

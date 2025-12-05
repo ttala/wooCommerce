@@ -22,9 +22,14 @@ variable "db_user" {
     default = "admin"
 }
 
-variable "db_password" {
-    type = string
-    description = "password for mysql"
-    sensitive = true
-    default = "Passwd4db1!"
+#variable "db_password" {
+#    type = string
+#    description = "password for mysql"
+#    sensitive = true
+#    default = "Passwd4db1!"
+#}
+
+variable "db_password_secret_id" {
+  type        = string
+  description = "Scaleway Secret ID for DB password"
 }

@@ -6,3 +6,4 @@ secret.sh
 terraform.tfvars
 kubernetes.backup
 yamls/
+docker-compose.yaml

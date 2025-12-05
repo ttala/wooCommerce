@@ -35,7 +35,7 @@ resource "kubernetes_secret" "woocommerce_env" {
     WORDPRESS_DB_HOST     = data.terraform_remote_state.infra.outputs.db_host
     WORDPRESS_DB_PORT     = data.terraform_remote_state.infra.outputs.db_port
     WORDPRESS_DB_USER     = data.terraform_remote_state.infra.outputs.db_user
-    WORDPRESS_DB_PASSWORD = data.terraform_remote_state.infra.outputs.db_password
+    WORDPRESS_DB_PASSWORD = data.scaleway_secret_version.db_password.data
     WORDPRESS_DB_NAME     = var.db_name
     #WORDPRESS_URL         = "${var.subdomain}.${var.domain}"
     WORDPRESS_ADMIN_EMAIL = var.admin_email
