@@ -2,14 +2,12 @@
 # Creating a private network for cluster isolation
 resource "scaleway_vpc_private_network" "woocom_pn" {
     name = "woo-private-net"
-    region = var.region
 }
 
 # Creating a public gateway for external access
 resource "scaleway_vpc_public_gateway" "woocom_gateway" {
     name = "woo-gateway"
     type = "VPC-GW-S"
-    zone = var.zone
 }
 
 # Attaching the public gateway to the private network
@@ -17,7 +15,6 @@ resource "scaleway_vpc_gateway_network" "woocom_gateway_network" {
     gateway_id = scaleway_vpc_public_gateway.woocom_gateway.id
     private_network_id = scaleway_vpc_private_network.woocom_pn.id
     enable_masquerade = true
-    zone = var.zone
     ipam_config {
         push_default_route = true
     }
@@ -26,7 +23,7 @@ resource "scaleway_vpc_gateway_network" "woocom_gateway_network" {
 # Fetch db password
 data "scaleway_secret_version" "db_password" {
   secret_id  = var.db_password_secret_id
-  version    = "latest"
+  revision    = "1"
 }
 
 # Creating a managed MySQL database for WooCommerce
@@ -37,7 +34,6 @@ resource "scaleway_rdb_instance" "woocommerce_db" {
     is_ha_cluster = true
     user_name = var.db_user
     password = data.scaleway_secret_version.db_password.data
-    region = var.region
     private_network {
     pn_id = scaleway_vpc_private_network.woocom_pn.id
     enable_ipam = true
@@ -51,7 +47,6 @@ resource "scaleway_k8s_cluster" "woocom_cluster" {
     version = "1.33.4"
     cni = "cilium"
     private_network_id = scaleway_vpc_private_network.woocom_pn.id
-    region = var.region
     delete_additional_resources = true
 }
 
@@ -66,8 +61,6 @@ resource "scaleway_k8s_pool" "full_isolation_pool" {
     min_size = 2
     max_size = 5
     public_ip_disabled = true
-    region = var.region
-    zone = var.zone
     depends_on = [scaleway_vpc_gateway_network.woocom_gateway_network]
 }
 
@@ -104,9 +97,3 @@ output "db_port" {
 output "db_user" {
   value = scaleway_rdb_instance.woocommerce_db.user_name
 }
-
-output "db_password" {
-  value = scaleway_rdb_instance.woocommerce_db.password
-  sensitive = true
-}
-

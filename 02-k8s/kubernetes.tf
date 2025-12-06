@@ -14,17 +14,14 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(data.terraform_remote_state.infra.outputs.kubeconfig_ca)
 }
 
-
-#Update DNS
-#resource "scaleway_domain_record" "woo" {
-#  dns_zone = var.domain
-#  name     = var.subdomain
-#  type     = "A"
-#  data     = scaleway_lb_ip.woo_lb_ip.ip_address
-#  ttl      = 900
-#}
+# Fetch db password
+data "scaleway_secret_version" "db_password" {
+  secret_id  = var.db_password_secret_id
+  revision    = "1"
+}
 
 
+# Create secret with database info
 resource "kubernetes_secret" "woocommerce_env" {
   metadata {
     name      = "woocommerce-env"
@@ -151,7 +148,7 @@ resource "kubernetes_deployment" "woocommerce" {
 
 # Creating LoadBalancer IP
 resource "scaleway_lb_ip" "woo_lb_ip" {
-  zone = var.zone
+
 }
 
 output "woocommerce_lb" {

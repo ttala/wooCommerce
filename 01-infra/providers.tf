@@ -7,3 +7,8 @@ terraform {
   }
   required_version = ">= 1.0.0"
 }
+
+provider "scaleway" {
+  zone   = "pl-waw-1"
+  region = "pl-waw"
+}
